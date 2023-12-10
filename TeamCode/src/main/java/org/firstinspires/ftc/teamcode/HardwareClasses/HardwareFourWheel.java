@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.HardwareClasses;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -60,6 +61,8 @@ public class HardwareFourWheel {
     public DcMotor leftBackDrive    = null;
     public DcMotor rightBackDrive   = null;
     public DcMotor slideRotation    = null;
+    public DcMotor leftSlides       = null;
+    public DcMotor rightSlides      = null;
 
     public HardwareFourWheel () {
     }
@@ -78,18 +81,24 @@ public class HardwareFourWheel {
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFront");
         rightBackDrive = hwMap.get(DcMotor.class, "rightRear");
         slideRotation = hwMap.get(DcMotor.class, "slideRotate");
+        leftSlides = hwMap.get(DcMotor.class, "leftSlide");
+        rightSlides = hwMap.get(DcMotor.class, "rightSlide");
 
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        slideRotation.setDirection(DcMotor.Direction.FORWARD);
+
 
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     /**

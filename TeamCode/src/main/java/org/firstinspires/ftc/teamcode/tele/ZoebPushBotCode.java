@@ -57,20 +57,25 @@ public class ZoebPushBotCode extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private HardwareFourWheel robot = new HardwareFourWheel();
-    public final double SPEED_MULTIPLIER_DRIVE = 0.6;
-    public final double SPEED_MULTIPLIER_SLIDE_ROTATION = 0.2;
+    public final double SPEED_MULTIPLIER_DRIVE = 0.8;
+    public final double SPEED_MULTIPLIER_SLIDE_ROTATION = 0.85;
+    public final double SPEED_MULTIPLIER_SLIDES = 0.6;
     public final double STRAFING_CORRECTION = 1.05;
     double verticalComponent;
     double lateralComponent;
     double turnComponent;
     double normalizingFactor;
-    double slidePositive;
-    double slideNegative;
+    double slideRotatePositive;
+    double slideRotateNegative;
+    boolean slideExtend;
+    boolean slideRetract;
     double fl = 0;
     double fr = 0;
     double bl = 0;
     double br = 0;
     double sr = 0;
+    double slide = 0;
+
 
     @Override
     public void runOpMode() {
@@ -84,8 +89,10 @@ public class ZoebPushBotCode extends LinearOpMode {
             verticalComponent = -gamepad1.left_stick_y;
             lateralComponent = gamepad1.left_stick_x * STRAFING_CORRECTION;
             turnComponent = gamepad1.right_stick_x;
-            slidePositive = gamepad1.left_trigger;
-            slideNegative = gamepad1.right_trigger;
+            slideRotatePositive = gamepad1.left_trigger;
+            slideRotateNegative = gamepad1.right_trigger;
+            slideExtend = gamepad1.left_bumper;
+            slideRetract = gamepad1.right_bumper;
 
             //This one liner makes sure that the powers dont go over 1 and are in the same ratio.
             normalizingFactor = Math.max(Math.abs(verticalComponent)
@@ -95,7 +102,17 @@ public class ZoebPushBotCode extends LinearOpMode {
             fr = SPEED_MULTIPLIER_DRIVE * (verticalComponent - lateralComponent - turnComponent) / normalizingFactor;
             bl = SPEED_MULTIPLIER_DRIVE * (verticalComponent - lateralComponent + turnComponent) / normalizingFactor;
             br = SPEED_MULTIPLIER_DRIVE * (verticalComponent + lateralComponent - turnComponent) / normalizingFactor;
-            sr = SPEED_MULTIPLIER_SLIDE_ROTATION * (slidePositive - slideNegative);
+            sr = SPEED_MULTIPLIER_SLIDE_ROTATION * (slideRotatePositive - slideRotateNegative + 0.1);
+            if (slideRetract) {
+                slide = SPEED_MULTIPLIER_SLIDES;
+            }
+            else if (slideExtend){
+                slide = SPEED_MULTIPLIER_SLIDES*-1;
+            }
+            else{
+                slide = 0;
+            }
+
 
 
             robot.leftFrontDrive.setPower(fl);
@@ -103,11 +120,14 @@ public class ZoebPushBotCode extends LinearOpMode {
             robot.leftBackDrive.setPower(bl);
             robot.rightBackDrive.setPower(br);
             robot.slideRotation.setPower(sr);
+            robot.leftSlides.setPower(slide);
+            robot.rightSlides.setPower(slide*-1);
 
             telemetry.addData("Front Left Power", fl);
             telemetry.addData("Front Right Power", fr);
             telemetry.addData("Back Right Power", br);
             telemetry.addData("Back Left Power", bl);
+            telemetry.addData("Slide Power", slide);
             telemetry.update();
         }
     }
