@@ -59,6 +59,7 @@ public class HardwareFourWheel {
     public DcMotor rightFrontDrive  = null;
     public DcMotor leftBackDrive    = null;
     public DcMotor rightBackDrive   = null;
+    public DcMotor slideRotation    = null;
 
     public HardwareFourWheel () {
     }
@@ -76,6 +77,7 @@ public class HardwareFourWheel {
         leftBackDrive  = hwMap.get(DcMotor.class, "leftRear");
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFront");
         rightBackDrive = hwMap.get(DcMotor.class, "rightRear");
+        slideRotation = hwMap.get(DcMotor.class, "slideRotate");
 
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -87,6 +89,7 @@ public class HardwareFourWheel {
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     /**

@@ -50,23 +50,27 @@ import org.firstinspires.ftc.teamcode.HardwareClasses.HardwareFourWheel;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Teleop Zoeb Strafe", group="Linear Opmode")
+@TeleOp(name="Zoeb Pushbot Code", group="Linear Opmode")
 
 public class ZoebPushBotCode extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private HardwareFourWheel robot = new HardwareFourWheel();
-    public final double SPEED_MULTIPLIER = 0.6;
+    public final double SPEED_MULTIPLIER_DRIVE = 0.6;
+    public final double SPEED_MULTIPLIER_SLIDE_ROTATION = 0.2;
     public final double STRAFING_CORRECTION = 1.05;
     double verticalComponent;
     double lateralComponent;
     double turnComponent;
     double normalizingFactor;
+    double slidePositive;
+    double slideNegative;
     double fl = 0;
     double fr = 0;
     double bl = 0;
     double br = 0;
+    double sr = 0;
 
     @Override
     public void runOpMode() {
@@ -80,20 +84,25 @@ public class ZoebPushBotCode extends LinearOpMode {
             verticalComponent = -gamepad1.left_stick_y;
             lateralComponent = gamepad1.left_stick_x * STRAFING_CORRECTION;
             turnComponent = gamepad1.right_stick_x;
+            slidePositive = gamepad1.left_trigger;
+            slideNegative = gamepad1.right_trigger;
 
             //This one liner makes sure that the powers dont go over 1 and are in the same ratio.
             normalizingFactor = Math.max(Math.abs(verticalComponent)
                     + Math.abs(lateralComponent) + Math.abs(turnComponent), 1);
 
-            fl = SPEED_MULTIPLIER * (verticalComponent + lateralComponent + turnComponent) / normalizingFactor;
-            fr = SPEED_MULTIPLIER * (verticalComponent - lateralComponent - turnComponent) / normalizingFactor;
-            bl = SPEED_MULTIPLIER * (verticalComponent - lateralComponent + turnComponent) / normalizingFactor;
-            br = SPEED_MULTIPLIER * (verticalComponent + lateralComponent - turnComponent) / normalizingFactor;
+            fl = SPEED_MULTIPLIER_DRIVE * (verticalComponent + lateralComponent + turnComponent) / normalizingFactor;
+            fr = SPEED_MULTIPLIER_DRIVE * (verticalComponent - lateralComponent - turnComponent) / normalizingFactor;
+            bl = SPEED_MULTIPLIER_DRIVE * (verticalComponent - lateralComponent + turnComponent) / normalizingFactor;
+            br = SPEED_MULTIPLIER_DRIVE * (verticalComponent + lateralComponent - turnComponent) / normalizingFactor;
+            sr = SPEED_MULTIPLIER_SLIDE_ROTATION * (slidePositive - slideNegative);
+
 
             robot.leftFrontDrive.setPower(fl);
             robot.rightFrontDrive.setPower(fr);
             robot.leftBackDrive.setPower(bl);
             robot.rightBackDrive.setPower(br);
+            robot.slideRotation.setPower(sr);
 
             telemetry.addData("Front Left Power", fl);
             telemetry.addData("Front Right Power", fr);
