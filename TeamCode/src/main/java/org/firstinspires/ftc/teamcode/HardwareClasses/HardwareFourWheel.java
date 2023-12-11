@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.HardwareClasses;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
@@ -63,6 +64,9 @@ public class HardwareFourWheel {
     public DcMotor slideRotation    = null;
     public DcMotor leftSlides       = null;
     public DcMotor rightSlides      = null;
+    public DcMotor linearActuator   = null;
+    public Servo clawLeftRotate     = null;
+    public Servo clawRightRotate    = null;
 
     public HardwareFourWheel () {
     }
@@ -83,6 +87,9 @@ public class HardwareFourWheel {
         slideRotation = hwMap.get(DcMotor.class, "slideRotate");
         leftSlides = hwMap.get(DcMotor.class, "leftSlide");
         rightSlides = hwMap.get(DcMotor.class, "rightSlide");
+        linearActuator = hwMap.get(DcMotor.class, "linearActuator");
+        clawLeftRotate = hwMap.get(Servo.class, "clawLeftRotate");
+        clawRightRotate = hwMap.get(Servo.class, "clawRightRotate");
 
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -90,6 +97,12 @@ public class HardwareFourWheel {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         slideRotation.setDirection(DcMotor.Direction.FORWARD);
+        leftSlides.setDirection(DcMotor.Direction.FORWARD);
+        rightSlides.setDirection(DcMotor.Direction.REVERSE);
+        linearActuator.setDirection(DcMotor.Direction.FORWARD);
+        clawLeftRotate.setDirection(Servo.Direction.FORWARD);
+        clawRightRotate.setDirection(Servo.Direction.REVERSE);
+
 
 
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -99,6 +112,8 @@ public class HardwareFourWheel {
         slideRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearActuator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
     /**

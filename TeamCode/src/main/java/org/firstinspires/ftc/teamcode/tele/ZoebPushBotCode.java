@@ -57,10 +57,14 @@ public class ZoebPushBotCode extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private HardwareFourWheel robot = new HardwareFourWheel();
-    public final double SPEED_MULTIPLIER_DRIVE = 0.8;
-    public final double SPEED_MULTIPLIER_SLIDE_ROTATION = 0.85;
+    public final double SPEED_MULTIPLIER_DRIVE = 0.9;
+    public final double SPEED_MULTIPLIER_ALIGN = 0.2;
+    public final double SPEED_MULTIPLIER_SLIDE_ROTATION = 1.2;
     public final double SPEED_MULTIPLIER_SLIDES = 0.6;
     public final double STRAFING_CORRECTION = 1.05;
+    public final double SLIDE_GRAVITY_OFFSET = 0.1;
+    public final double ACTUATOR_SPEED = 0.9;
+    public final double CLAW_ROTATE_SPEED = 0.4;
     double verticalComponent;
     double lateralComponent;
     double turnComponent;
@@ -69,6 +73,14 @@ public class ZoebPushBotCode extends LinearOpMode {
     double slideRotateNegative;
     boolean slideExtend;
     boolean slideRetract;
+    boolean slowMoveFront;
+    boolean slowMoveBack;
+    boolean slowMoveRight;
+    boolean slowMoveLeft;
+    boolean actuatorUp;
+    boolean actuatorDown;
+    boolean rotateClawPos;
+    boolean rotateClawNeg;
     double fl = 0;
     double fr = 0;
     double bl = 0;
@@ -89,10 +101,21 @@ public class ZoebPushBotCode extends LinearOpMode {
             verticalComponent = -gamepad1.left_stick_y;
             lateralComponent = gamepad1.left_stick_x * STRAFING_CORRECTION;
             turnComponent = gamepad1.right_stick_x;
-            slideRotatePositive = gamepad1.left_trigger;
-            slideRotateNegative = gamepad1.right_trigger;
-            slideExtend = gamepad1.left_bumper;
-            slideRetract = gamepad1.right_bumper;
+            slideRotatePositive = gamepad2.left_trigger;
+            slideRotateNegative = gamepad2.right_trigger;
+            slideExtend = gamepad2.left_bumper;
+            slideRetract = gamepad2.right_bumper;
+            slowMoveFront = gamepad2.dpad_up;
+            slowMoveBack = gamepad2.dpad_down;
+            slowMoveLeft = gamepad2.dpad_left;
+            slowMoveRight = gamepad2.dpad_right;
+            actuatorUp = gamepad1.y;
+            actuatorDown = gamepad1.a;
+            rotateClawPos = gamepad1.x;
+            rotateClawNeg = gamepad1.b;
+
+
+
 
             //This one liner makes sure that the powers dont go over 1 and are in the same ratio.
             normalizingFactor = Math.max(Math.abs(verticalComponent)
@@ -102,7 +125,31 @@ public class ZoebPushBotCode extends LinearOpMode {
             fr = SPEED_MULTIPLIER_DRIVE * (verticalComponent - lateralComponent - turnComponent) / normalizingFactor;
             bl = SPEED_MULTIPLIER_DRIVE * (verticalComponent - lateralComponent + turnComponent) / normalizingFactor;
             br = SPEED_MULTIPLIER_DRIVE * (verticalComponent + lateralComponent - turnComponent) / normalizingFactor;
-            sr = SPEED_MULTIPLIER_SLIDE_ROTATION * (slideRotatePositive - slideRotateNegative + 0.1);
+            // D-Pad Assignments (get preference because slower)
+            if (slowMoveFront){
+                fl = SPEED_MULTIPLIER_ALIGN;
+                bl = SPEED_MULTIPLIER_ALIGN;
+                fr = SPEED_MULTIPLIER_ALIGN;
+                br = SPEED_MULTIPLIER_ALIGN;
+            }else if (slowMoveBack){
+                fl = -1*SPEED_MULTIPLIER_ALIGN;
+                bl = -1*SPEED_MULTIPLIER_ALIGN;
+                fr = -1*SPEED_MULTIPLIER_ALIGN;
+                br = -1*SPEED_MULTIPLIER_ALIGN;
+            }else if (slowMoveLeft){
+                fl = -2*SPEED_MULTIPLIER_ALIGN;
+                bl = 2*SPEED_MULTIPLIER_ALIGN;
+                fr = 2*SPEED_MULTIPLIER_ALIGN;
+                br = -2*SPEED_MULTIPLIER_ALIGN;
+            }else if (slowMoveRight){
+                fl = 2*SPEED_MULTIPLIER_ALIGN;
+                bl = -2*SPEED_MULTIPLIER_ALIGN;
+                fr = -2*SPEED_MULTIPLIER_ALIGN;
+                br = 2*SPEED_MULTIPLIER_ALIGN;
+            }
+
+
+            sr = SPEED_MULTIPLIER_SLIDE_ROTATION * (slideRotatePositive - slideRotateNegative + SLIDE_GRAVITY_OFFSET);
             if (slideRetract) {
                 slide = SPEED_MULTIPLIER_SLIDES;
             }
@@ -113,6 +160,23 @@ public class ZoebPushBotCode extends LinearOpMode {
                 slide = 0;
             }
 
+            if (actuatorDown){
+                robot.linearActuator.setPower(ACTUATOR_SPEED*-1);
+            }
+            else if (actuatorUp){
+                robot.linearActuator.setPower(ACTUATOR_SPEED);
+            }
+            else{
+                robot.linearActuator.setPower(0);
+            }
+
+            double l = robot.clawLeftRotate.getPosition();
+            double r = robot.clawRightRotate.getPosition();
+            if (rotateClawPos){
+                l+=0.3;r-=0.3;
+            }
+            robot.clawLeftRotate.setPosition(l);
+            robot.clawRightRotate.setPosition(r);
 
 
             robot.leftFrontDrive.setPower(fl);
@@ -121,7 +185,7 @@ public class ZoebPushBotCode extends LinearOpMode {
             robot.rightBackDrive.setPower(br);
             robot.slideRotation.setPower(sr);
             robot.leftSlides.setPower(slide);
-            robot.rightSlides.setPower(slide*-1);
+            robot.rightSlides.setPower(slide);
 
             telemetry.addData("Front Left Power", fl);
             telemetry.addData("Front Right Power", fr);
