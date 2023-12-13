@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.HardwareClasses;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -65,8 +66,8 @@ public class HardwareFourWheel {
     public DcMotor leftSlides       = null;
     public DcMotor rightSlides      = null;
     public DcMotor linearActuator   = null;
-    public Servo clawLeftRotate     = null;
-    public Servo clawRightRotate    = null;
+    public CRServo clawLeftRotate   = null;
+    public CRServo clawRightRotate  = null;
 
     public HardwareFourWheel () {
     }
@@ -88,8 +89,10 @@ public class HardwareFourWheel {
         leftSlides = hwMap.get(DcMotor.class, "leftSlide");
         rightSlides = hwMap.get(DcMotor.class, "rightSlide");
         linearActuator = hwMap.get(DcMotor.class, "linearActuator");
-        clawLeftRotate = hwMap.get(Servo.class, "clawLeftRotate");
-        clawRightRotate = hwMap.get(Servo.class, "clawRightRotate");
+
+
+        clawLeftRotate = hwMap.get(CRServo.class, "clawLeftRotate");
+        clawRightRotate = hwMap.get(CRServo.class, "clawRightRotate");
 
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -100,8 +103,8 @@ public class HardwareFourWheel {
         leftSlides.setDirection(DcMotor.Direction.FORWARD);
         rightSlides.setDirection(DcMotor.Direction.REVERSE);
         linearActuator.setDirection(DcMotor.Direction.FORWARD);
-        clawLeftRotate.setDirection(Servo.Direction.FORWARD);
-        clawRightRotate.setDirection(Servo.Direction.REVERSE);
+        clawLeftRotate.setDirection(CRServo.Direction.FORWARD);
+        clawRightRotate.setDirection(CRServo.Direction.REVERSE);
 
 
 
@@ -113,6 +116,7 @@ public class HardwareFourWheel {
         leftSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearActuator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
     }
 

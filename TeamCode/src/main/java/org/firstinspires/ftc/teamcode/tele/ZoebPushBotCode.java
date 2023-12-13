@@ -48,9 +48,11 @@ import org.firstinspires.ftc.teamcode.HardwareClasses.HardwareFourWheel;
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ *
+ * @author Zoeb Izzi
  */
 
-@TeleOp(name="Zoeb Pushbot Code", group="Linear Opmode")
+@TeleOp(name="Zoeb - Not a PushBot", group="Linear Opmode")
 
 public class ZoebPushBotCode extends LinearOpMode {
 
@@ -63,8 +65,8 @@ public class ZoebPushBotCode extends LinearOpMode {
     public final double SPEED_MULTIPLIER_SLIDES = 0.6;
     public final double STRAFING_CORRECTION = 1.05;
     public final double SLIDE_GRAVITY_OFFSET = 0.1;
-    public final double ACTUATOR_SPEED = 0.9;
-    public final double CLAW_ROTATE_SPEED = 0.4;
+    public final double ACTUATOR_SPEED = 0.6;
+    public final double CLAW_ROTATE_SPEED = 0.6;
     double verticalComponent;
     double lateralComponent;
     double turnComponent;
@@ -81,6 +83,10 @@ public class ZoebPushBotCode extends LinearOpMode {
     boolean actuatorDown;
     boolean rotateClawPos;
     boolean rotateClawNeg;
+    boolean leftClawOpen;
+    boolean leftClawClose;
+    boolean rightClawOpen;
+    boolean rightClawClose;
     double fl = 0;
     double fr = 0;
     double bl = 0;
@@ -149,6 +155,7 @@ public class ZoebPushBotCode extends LinearOpMode {
             }
 
 
+            // Slide Rotation and Retract/Extend
             sr = SPEED_MULTIPLIER_SLIDE_ROTATION * (slideRotatePositive - slideRotateNegative + SLIDE_GRAVITY_OFFSET);
             if (slideRetract) {
                 slide = SPEED_MULTIPLIER_SLIDES;
@@ -160,6 +167,7 @@ public class ZoebPushBotCode extends LinearOpMode {
                 slide = 0;
             }
 
+            //Linear Actuator for Lifting
             if (actuatorDown){
                 robot.linearActuator.setPower(ACTUATOR_SPEED*-1);
             }
@@ -170,23 +178,35 @@ public class ZoebPushBotCode extends LinearOpMode {
                 robot.linearActuator.setPower(0);
             }
 
-            double l = robot.clawLeftRotate.getPosition();
-            double r = robot.clawRightRotate.getPosition();
+            //Claw Rotating
             if (rotateClawPos){
-                l+=0.3;r-=0.3;
+                robot.clawLeftRotate.setPower(CLAW_ROTATE_SPEED);
+                robot.clawRightRotate.setPower(CLAW_ROTATE_SPEED * -1);
             }
-            robot.clawLeftRotate.setPosition(l);
-            robot.clawRightRotate.setPosition(r);
+            else if (rotateClawNeg){
+                robot.clawLeftRotate.setPower(CLAW_ROTATE_SPEED * -1);
+                robot.clawRightRotate.setPower(CLAW_ROTATE_SPEED);
+            }
+            else{
+                robot.clawLeftRotate.setPower(0);
+                robot.clawRightRotate.setPower(0);
+            }
+
+            //Claw Open/Close
 
 
+            //Drivetrain Power
             robot.leftFrontDrive.setPower(fl);
             robot.rightFrontDrive.setPower(fr);
             robot.leftBackDrive.setPower(bl);
             robot.rightBackDrive.setPower(br);
             robot.slideRotation.setPower(sr);
+
+            //Slide Power
             robot.leftSlides.setPower(slide);
             robot.rightSlides.setPower(slide);
 
+            //Things we see on Driver Hub
             telemetry.addData("Front Left Power", fl);
             telemetry.addData("Front Right Power", fr);
             telemetry.addData("Back Right Power", br);
