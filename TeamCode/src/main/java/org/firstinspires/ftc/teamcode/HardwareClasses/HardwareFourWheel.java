@@ -68,6 +68,9 @@ public class HardwareFourWheel {
     public DcMotor linearActuator   = null;
     public CRServo clawLeftRotate   = null;
     public CRServo clawRightRotate  = null;
+    public CRServo leftClaw         = null;
+    public CRServo rightClaw        = null;
+    public CRServo airplaneLauncher = null;
 
     public HardwareFourWheel () {
     }
@@ -93,6 +96,9 @@ public class HardwareFourWheel {
 
         clawLeftRotate = hwMap.get(CRServo.class, "clawLeftRotate");
         clawRightRotate = hwMap.get(CRServo.class, "clawRightRotate");
+        leftClaw = hwMap.get(CRServo.class, "leftClaw");
+        rightClaw = hwMap.get(CRServo.class, "rightClaw");
+        airplaneLauncher = hwMap.get(CRServo.class, "airplaneLauncher");
 
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -105,7 +111,8 @@ public class HardwareFourWheel {
         linearActuator.setDirection(DcMotor.Direction.FORWARD);
         clawLeftRotate.setDirection(CRServo.Direction.FORWARD);
         clawRightRotate.setDirection(CRServo.Direction.REVERSE);
-
+        leftClaw.setDirection(CRServo.Direction.FORWARD);
+        rightClaw.setDirection(CRServo.Direction.REVERSE);
 
 
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -61,12 +61,13 @@ public class ZoebPushBotCode extends LinearOpMode {
     private HardwareFourWheel robot = new HardwareFourWheel();
     public final double SPEED_MULTIPLIER_DRIVE = 0.9;
     public final double SPEED_MULTIPLIER_ALIGN = 0.2;
-    public final double SPEED_MULTIPLIER_SLIDE_ROTATION = 1.2;
-    public final double SPEED_MULTIPLIER_SLIDES = 0.6;
+    public final double SPEED_MULTIPLIER_SLIDE_ROTATION = 1;
+    public final double SPEED_MULTIPLIER_SLIDES = 0.5;
     public final double STRAFING_CORRECTION = 1.05;
     public final double SLIDE_GRAVITY_OFFSET = 0.1;
     public final double ACTUATOR_SPEED = 0.6;
-    public final double CLAW_ROTATE_SPEED = 0.6;
+    public final double CLAW_ROTATE_SPEED = 0.5;
+    public final double CLAW_SPEED = 0.5;
     double verticalComponent;
     double lateralComponent;
     double turnComponent;
@@ -87,6 +88,8 @@ public class ZoebPushBotCode extends LinearOpMode {
     boolean leftClawClose;
     boolean rightClawOpen;
     boolean rightClawClose;
+    boolean launcher1;
+    boolean launcher2;
     double fl = 0;
     double fr = 0;
     double bl = 0;
@@ -117,8 +120,15 @@ public class ZoebPushBotCode extends LinearOpMode {
             slowMoveRight = gamepad2.dpad_right;
             actuatorUp = gamepad1.y;
             actuatorDown = gamepad1.a;
-            rotateClawPos = gamepad1.x;
-            rotateClawNeg = gamepad1.b;
+            rotateClawPos = gamepad2.right_stick_button;
+            rotateClawNeg = gamepad2.left_stick_button;
+            leftClawClose = gamepad2.x;
+            rightClawClose = gamepad2.b;
+            leftClawOpen = gamepad2.a;
+            rightClawOpen = gamepad2.y;
+            launcher1 = gamepad1.x;
+            launcher2 = gamepad1.b;
+
 
 
 
@@ -181,11 +191,11 @@ public class ZoebPushBotCode extends LinearOpMode {
             //Claw Rotating
             if (rotateClawPos){
                 robot.clawLeftRotate.setPower(CLAW_ROTATE_SPEED);
-                robot.clawRightRotate.setPower(CLAW_ROTATE_SPEED * -1);
+                robot.clawRightRotate.setPower(CLAW_ROTATE_SPEED);
             }
             else if (rotateClawNeg){
                 robot.clawLeftRotate.setPower(CLAW_ROTATE_SPEED * -1);
-                robot.clawRightRotate.setPower(CLAW_ROTATE_SPEED);
+                robot.clawRightRotate.setPower(CLAW_ROTATE_SPEED * -1);
             }
             else{
                 robot.clawLeftRotate.setPower(0);
@@ -193,6 +203,36 @@ public class ZoebPushBotCode extends LinearOpMode {
             }
 
             //Claw Open/Close
+            if (leftClawClose){
+                robot.leftClaw.setPower(CLAW_SPEED);
+                robot.rightClaw.setPower(0);
+            }
+            else if (leftClawOpen){
+                robot.leftClaw.setPower(CLAW_SPEED * -1);
+                robot.rightClaw.setPower(0);
+            }
+            else if (rightClawOpen){
+                robot.leftClaw.setPower(0);
+                robot.rightClaw.setPower(CLAW_SPEED);
+            }
+            else if (rightClawClose){
+                robot.leftClaw.setPower(0);
+                robot.rightClaw.setPower(CLAW_SPEED * -1);
+            }
+            else{
+                robot.leftClaw.setPower(0);
+                robot.rightClaw.setPower(0);
+            }
+
+            //Airplane Launching
+            if (launcher1){
+                if (launcher2){
+                    robot.airplaneLauncher.setPower(-1);
+                }
+            }
+            else{
+                robot.airplaneLauncher.setPower(0);
+            }
 
 
             //Drivetrain Power
@@ -212,6 +252,13 @@ public class ZoebPushBotCode extends LinearOpMode {
             telemetry.addData("Back Right Power", br);
             telemetry.addData("Back Left Power", bl);
             telemetry.addData("Slide Power", slide);
+            telemetry.addData("LO", leftClawOpen);
+            telemetry.addData("LC", leftClawClose);
+            telemetry.addData("RO", rightClawOpen);
+            telemetry.addData("RC", rightClawClose);
+            telemetry.addData("RCP", robot.rightClaw.getPower());
+            telemetry.addData("LCP", robot.leftClaw.getPower());
+
             telemetry.update();
         }
     }
