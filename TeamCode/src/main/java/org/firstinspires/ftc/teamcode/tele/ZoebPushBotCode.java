@@ -52,7 +52,7 @@ import org.firstinspires.ftc.teamcode.HardwareClasses.HardwareFourWheel;
  * @author Zoeb Izzi
  */
 
-@TeleOp(name="Zoeb - Not a PushBot", group="Linear Opmode")
+@TeleOp(name="compTele", group="Linear Opmode")
 
 public class ZoebPushBotCode extends LinearOpMode {
 
@@ -61,13 +61,14 @@ public class ZoebPushBotCode extends LinearOpMode {
     private HardwareFourWheel robot = new HardwareFourWheel();
     public final double SPEED_MULTIPLIER_DRIVE = 0.9;
     public final double SPEED_MULTIPLIER_ALIGN = 0.2;
-    public final double SPEED_MULTIPLIER_SLIDE_ROTATION = 1;
-    public final double SPEED_MULTIPLIER_SLIDES = 0.5;
+    public final double SPEED_MULTIPLIER_SLIDE_ROTATION = 0.75;
+    public final double SPEED_MULTIPLIER_SLIDES = 0.4;
     public final double STRAFING_CORRECTION = 1.05;
-    public final double SLIDE_GRAVITY_OFFSET = 0.1;
+    public final double SLIDE_GRAVITY_OFFSET = 0.25;
     public final double ACTUATOR_SPEED = 0.6;
-    public final double CLAW_ROTATE_SPEED = 0.5;
+    public final double CLAW_ROTATE_SPEED = 0.35;
     public final double CLAW_SPEED = 0.5;
+    public final double RETRACT_OFFSET = 0.05;
     double verticalComponent;
     double lateralComponent;
     double turnComponent;
@@ -84,10 +85,10 @@ public class ZoebPushBotCode extends LinearOpMode {
     boolean actuatorDown;
     boolean rotateClawPos;
     boolean rotateClawNeg;
-    boolean leftClawOpen;
-    boolean leftClawClose;
-    boolean rightClawOpen;
-    boolean rightClawClose;
+    boolean topClawOpen;
+    boolean topClawClose;
+    boolean bottomClawOpen;
+    boolean bottomClawClose;
     boolean launcher1;
     boolean launcher2;
     double fl = 0;
@@ -122,10 +123,10 @@ public class ZoebPushBotCode extends LinearOpMode {
             actuatorDown = gamepad1.a;
             rotateClawPos = gamepad2.right_stick_button;
             rotateClawNeg = gamepad2.left_stick_button;
-            leftClawClose = gamepad2.x;
-            rightClawClose = gamepad2.b;
-            leftClawOpen = gamepad2.a;
-            rightClawOpen = gamepad2.y;
+            topClawClose = gamepad2.x;
+            bottomClawClose = gamepad2.b;
+            topClawOpen = gamepad2.a;
+            bottomClawOpen = gamepad2.y;
             launcher1 = gamepad1.x;
             launcher2 = gamepad1.b;
 
@@ -168,13 +169,13 @@ public class ZoebPushBotCode extends LinearOpMode {
             // Slide Rotation and Retract/Extend
             sr = SPEED_MULTIPLIER_SLIDE_ROTATION * (slideRotatePositive - slideRotateNegative + SLIDE_GRAVITY_OFFSET);
             if (slideRetract) {
-                slide = SPEED_MULTIPLIER_SLIDES;
+                slide = SPEED_MULTIPLIER_SLIDES + RETRACT_OFFSET;
             }
             else if (slideExtend){
-                slide = SPEED_MULTIPLIER_SLIDES*-1;
+                slide = (SPEED_MULTIPLIER_SLIDES*-1) + RETRACT_OFFSET;
             }
             else{
-                slide = 0;
+                slide = RETRACT_OFFSET;
             }
 
             //Linear Actuator for Lifting
@@ -201,26 +202,24 @@ public class ZoebPushBotCode extends LinearOpMode {
                 robot.clawLeftRotate.setPower(0);
                 robot.clawRightRotate.setPower(0);
             }
-
             //Claw Open/Close
-            if (leftClawClose){
-                robot.leftClaw.setPower(CLAW_SPEED);
-                robot.rightClaw.setPower(0);
+            if (topClawClose){
+                robot.leftClaw.setPower(CLAW_SPEED * 3);
             }
-            else if (leftClawOpen){
-                robot.leftClaw.setPower(CLAW_SPEED * -1);
-                robot.rightClaw.setPower(0);
+            else if (topClawOpen){
+                robot.leftClaw.setPower(CLAW_SPEED * -3);
             }
-            else if (rightClawOpen){
+            else {
                 robot.leftClaw.setPower(0);
+            }
+
+            if (bottomClawOpen){
                 robot.rightClaw.setPower(CLAW_SPEED);
             }
-            else if (rightClawClose){
-                robot.leftClaw.setPower(0);
+            else if (bottomClawClose){
                 robot.rightClaw.setPower(CLAW_SPEED * -1);
             }
             else{
-                robot.leftClaw.setPower(0);
                 robot.rightClaw.setPower(0);
             }
 
@@ -252,12 +251,12 @@ public class ZoebPushBotCode extends LinearOpMode {
             telemetry.addData("Back Right Power", br);
             telemetry.addData("Back Left Power", bl);
             telemetry.addData("Slide Power", slide);
-            telemetry.addData("LO", leftClawOpen);
-            telemetry.addData("LC", leftClawClose);
-            telemetry.addData("RO", rightClawOpen);
-            telemetry.addData("RC", rightClawClose);
-            telemetry.addData("RCP", robot.rightClaw.getPower());
-            telemetry.addData("LCP", robot.leftClaw.getPower());
+            telemetry.addData("TO", topClawOpen);
+            telemetry.addData("TC", topClawClose);
+            telemetry.addData("BO", bottomClawOpen);
+            telemetry.addData("BC", bottomClawClose);
+            telemetry.addData("TCP", robot.rightClaw.getPower());
+            telemetry.addData("BCP", robot.leftClaw.getPower());
 
             telemetry.update();
         }
