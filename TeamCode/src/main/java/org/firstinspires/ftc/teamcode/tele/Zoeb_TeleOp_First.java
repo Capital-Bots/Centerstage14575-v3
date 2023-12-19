@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.HardwareClasses.HardwareFourWheel;
+import org.firstinspires.ftc.teamcode.HardwareClasses.testHardware;
 
 
 /**
@@ -56,7 +56,7 @@ public class Zoeb_TeleOp_First extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private HardwareFourWheel robot = new HardwareFourWheel();
+    private testHardware robot = new testHardware();
 
     @Override
     public void runOpMode() {
@@ -66,26 +66,28 @@ public class Zoeb_TeleOp_First extends LinearOpMode {
 
         while (opModeIsActive()) {
 
+            double up = gamepad1.left_stick_y;
+            double power = up * 0.3;
+            double verticalComponent = -gamepad1.left_stick_y;
+            double lateralComponent = gamepad1.left_stick_x;
+            double turnComponent = gamepad1.right_stick_x;
 
-            double leftPower;
-            double rightPower;
+            double normalizingFactor = Math.max(Math.abs(verticalComponent)
+                    + Math.abs(lateralComponent) + Math.abs(turnComponent), 1);
+
+            double fl = (verticalComponent + lateralComponent + turnComponent) / normalizingFactor;
+            double fr = (verticalComponent + lateralComponent - turnComponent) / normalizingFactor;
+            double bl = (verticalComponent - lateralComponent + turnComponent) / normalizingFactor;
+            double br = (verticalComponent - lateralComponent - turnComponent) / normalizingFactor;
 
 
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
-
-            leftPower    = Range.clip(drive + turn, -0.5, 0.5) ;
-            rightPower   = Range.clip(drive - turn, -0.5, 0.5) ;
-
-
-            robot.leftFrontDrive.setPower(leftPower);
-            robot.rightFrontDrive.setPower(rightPower);
-            robot.leftBackDrive.setPower(leftPower);
-            robot.rightBackDrive.setPower(rightPower);
+            robot.leftFrontDrive.setPower(fl);
+            robot.rightFrontDrive.setPower(fr);
+            robot.leftBackDrive.setPower(bl);
+            robot.rightBackDrive.setPower(br);
 
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
         }
     }

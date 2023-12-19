@@ -32,9 +32,8 @@ package org.firstinspires.ftc.teamcode.tele;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.HardwareClasses.HardwareFourWheel;
+import org.firstinspires.ftc.teamcode.HardwareClasses.compHardware;
 
 
 /**
@@ -58,7 +57,7 @@ public class ZoebPushBotCode extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private HardwareFourWheel robot = new HardwareFourWheel();
+    private compHardware robot = new compHardware();
     public final double SPEED_MULTIPLIER_DRIVE = 0.9;
     public final double SPEED_MULTIPLIER_ALIGN = 0.2;
     public final double SPEED_MULTIPLIER_SLIDE_ROTATION = 0.75;

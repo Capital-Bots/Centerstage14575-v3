@@ -54,7 +54,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  *
  */
 
-public class HardwareFourWheel {
+public class testHardware {
 
     private HardwareMap hwMap = null;
 
@@ -62,17 +62,9 @@ public class HardwareFourWheel {
     public DcMotor rightFrontDrive  = null;
     public DcMotor leftBackDrive    = null;
     public DcMotor rightBackDrive   = null;
-    public DcMotor slideRotation    = null;
-    public DcMotor leftSlides       = null;
-    public DcMotor rightSlides      = null;
-    public DcMotor linearActuator   = null;
-    public CRServo clawLeftRotate   = null;
-    public CRServo clawRightRotate  = null;
-    public CRServo leftClaw         = null;
-    public CRServo rightClaw        = null;
-    public CRServo airplaneLauncher = null;
 
-    public HardwareFourWheel () {
+
+    public testHardware() {
     }
 
     /**
@@ -88,41 +80,22 @@ public class HardwareFourWheel {
         leftBackDrive  = hwMap.get(DcMotor.class, "leftRear");
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFront");
         rightBackDrive = hwMap.get(DcMotor.class, "rightRear");
-        slideRotation = hwMap.get(DcMotor.class, "slideRotate");
-        leftSlides = hwMap.get(DcMotor.class, "leftSlide");
-        rightSlides = hwMap.get(DcMotor.class, "rightSlide");
-        linearActuator = hwMap.get(DcMotor.class, "linearActuator");
 
 
-        clawLeftRotate = hwMap.get(CRServo.class, "clawLeftRotate");
-        clawRightRotate = hwMap.get(CRServo.class, "clawRightRotate");
-        leftClaw = hwMap.get(CRServo.class, "leftClaw");
-        rightClaw = hwMap.get(CRServo.class, "rightClaw");
-        airplaneLauncher = hwMap.get(CRServo.class, "airplaneLauncher");
 
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        slideRotation.setDirection(DcMotor.Direction.FORWARD);
-        leftSlides.setDirection(DcMotor.Direction.FORWARD);
-        rightSlides.setDirection(DcMotor.Direction.REVERSE);
-        linearActuator.setDirection(DcMotor.Direction.FORWARD);
-        clawLeftRotate.setDirection(CRServo.Direction.FORWARD);
-        clawRightRotate.setDirection(CRServo.Direction.REVERSE);
-        leftClaw.setDirection(CRServo.Direction.FORWARD);
-        rightClaw.setDirection(CRServo.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+
 
 
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearActuator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
     }
