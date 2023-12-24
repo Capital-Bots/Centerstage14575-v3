@@ -29,8 +29,11 @@
 
 package org.firstinspires.ftc.teamcode.HardwareClasses;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
@@ -51,7 +54,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  *
  */
 
-public class HardwareFourWheel {
+public class testHardware {
 
     private HardwareMap hwMap = null;
 
@@ -59,9 +62,9 @@ public class HardwareFourWheel {
     public DcMotor rightFrontDrive  = null;
     public DcMotor leftBackDrive    = null;
     public DcMotor rightBackDrive   = null;
-    public DcMotor slideRotation    = null;
 
-    public HardwareFourWheel () {
+
+    public testHardware() {
     }
 
     /**
@@ -77,19 +80,24 @@ public class HardwareFourWheel {
         leftBackDrive  = hwMap.get(DcMotor.class, "leftRear");
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFront");
         rightBackDrive = hwMap.get(DcMotor.class, "rightRear");
-        slideRotation = hwMap.get(DcMotor.class, "slideRotate");
+
+
 
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+
+
 
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
     }
 
     /**

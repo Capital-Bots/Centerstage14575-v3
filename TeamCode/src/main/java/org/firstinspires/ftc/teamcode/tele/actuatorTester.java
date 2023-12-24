@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.HardwareClasses.testHardware;
+import org.firstinspires.ftc.teamcode.HardwareClasses.actuatorTesting;
 
 
 /**
@@ -50,13 +50,13 @@ import org.firstinspires.ftc.teamcode.HardwareClasses.testHardware;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Teleop Zoeb", group="Linear Opmode")
+@TeleOp(name="Actuator Test", group="Linear Opmode")
 
-public class Zoeb_TeleOp_First extends LinearOpMode {
+public class actuatorTester extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private testHardware robot = new testHardware();
+    private actuatorTesting robot = new actuatorTesting();
 
     @Override
     public void runOpMode() {
@@ -66,25 +66,15 @@ public class Zoeb_TeleOp_First extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            double up = gamepad1.left_stick_y;
-            double power = up * 0.3;
-            double verticalComponent = -gamepad1.left_stick_y;
-            double lateralComponent = gamepad1.left_stick_x;
-            double turnComponent = gamepad1.right_stick_x;
-
-            double normalizingFactor = Math.max(Math.abs(verticalComponent)
-                    + Math.abs(lateralComponent) + Math.abs(turnComponent), 1);
-
-            double fl = (verticalComponent + lateralComponent + turnComponent) / normalizingFactor;
-            double fr = (verticalComponent + lateralComponent - turnComponent) / normalizingFactor;
-            double bl = (verticalComponent - lateralComponent + turnComponent) / normalizingFactor;
-            double br = (verticalComponent - lateralComponent - turnComponent) / normalizingFactor;
-
-
-            robot.leftFrontDrive.setPower(fl);
-            robot.rightFrontDrive.setPower(fr);
-            robot.leftBackDrive.setPower(bl);
-            robot.rightBackDrive.setPower(br);
+            if (gamepad1.y){
+                robot.linearActuator.setPower(0.5);
+            }
+            else if (gamepad1.a){
+                robot.linearActuator.setPower(-1 * 0.5);
+            }
+            else{
+                robot.linearActuator.setPower(0);
+            }
 
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
