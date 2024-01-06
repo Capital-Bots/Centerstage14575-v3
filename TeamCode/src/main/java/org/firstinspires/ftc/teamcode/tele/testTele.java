@@ -255,7 +255,7 @@ public class testTele extends LinearOpMode {
                     robot.leftSlideRotate.setPower(-1 * 0.7);
                     robot.rightSlideRotate.setPower(-1 * 0.7);
                 }
-                for (int u = 0; u < 10000; u++){
+                for (int e = 0; e < 10000; e++){
                     robot.leftRollerArm.setPower(0.75);
                     robot.rightRollerArm.setPower(0.75);
                 }
