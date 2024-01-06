@@ -36,6 +36,8 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.HardwareClasses.testHardware;
 
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -72,21 +74,23 @@ public class testTele extends LinearOpMode {
             double slideRotateNeg = gamepad2.right_trigger;
             boolean slideOut = gamepad2.left_bumper;
             boolean slideIn = gamepad2.right_bumper;
-            boolean rollers = gamepad2.a;
-            boolean rollerDown = gamepad2.y;
-            boolean rollerUp = gamepad2.x;
+            boolean rollers = gamepad2.x;
+            boolean rollerDown = gamepad2.a;
+            boolean rollerUp = gamepad2.y;
             boolean launchPlane1 = gamepad1.b;
             boolean launchPlane2 = gamepad1.x;
             boolean pixelHolding = gamepad2.b;
             boolean rotateHookPos = gamepad1.y;
             boolean rotateHookNeg = gamepad1.a;
-            boolean pixelRemove = gamepad2.left_stick_button;
+            boolean pixelRemove = gamepad2.back;
             boolean slowFront = gamepad2.dpad_up;
             boolean slowBack = gamepad2.dpad_down;
             boolean slowLeft = gamepad2.dpad_left;
             boolean slowRight = gamepad2.dpad_right;
+            boolean autoOutToIn = gamepad2.left_stick_button;
+            boolean autoInToOut = gamepad2.right_stick_button;
 
-            double SPEED_MULTIPLIER = 0.75;
+            double SPEED_MULTIPLIER = 0.875;
 
 
             double normalizingFactor = Math.max(Math.abs(verticalComponent)
@@ -214,6 +218,47 @@ public class testTele extends LinearOpMode {
             }
             else{
                 robot.hook.setPower(0);
+            }
+
+            if (autoInToOut){
+                for (int i = 0; i < 400; i++) {
+                    robot.slides.setPower(-1 * 0.6);
+                }
+                for (int k = 0; k < 50000; k ++){
+                    robot.leftSlideRotate.setPower(0.7);
+                    robot.rightSlideRotate.setPower(0.7);
+                }
+                for (int d = 0; d < 50000; d ++){
+                    robot.leftRollerArm.setPower(0.75);
+                    robot.rightRollerArm.setPower(0.75);
+                }
+                for (int d = 0; d < 10000; d ++){
+                    robot.airplaneLauncher.setPower(0);
+                }
+                for (int s = 0; s < 40000; s ++){
+                    robot.leftSlideRotate.setPower(0.7 * -1);
+                    robot.rightSlideRotate.setPower(0.7 * -1);
+                }
+
+            }
+
+            if (autoOutToIn) {
+                for (int s = 0; s < 20000; s++) {
+                    robot.leftSlideRotate.setPower(0.7);
+                    robot.rightSlideRotate.setPower(0.7);
+                }
+                for (int o = 0; o < 50000; o++){
+                    robot.leftRollerArm.setPower(-1 * 0.75);
+                    robot.rightRollerArm.setPower(-1 * 0.75);
+                }
+                for (int p = 0; p < 20000; p++){
+                    robot.leftSlideRotate.setPower(-1 * 0.7);
+                    robot.rightSlideRotate.setPower(-1 * 0.7);
+                }
+                for (int u = 0; u < 10000; u++){
+                    robot.leftRollerArm.setPower(0.75);
+                    robot.rightRollerArm.setPower(0.75);
+                }
             }
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
