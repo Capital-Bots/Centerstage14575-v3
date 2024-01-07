@@ -61,7 +61,7 @@ public class testTele extends LinearOpMode {
     private testHardware robot = new testHardware();
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
         waitForStart();
         runtime.reset();
@@ -90,7 +90,7 @@ public class testTele extends LinearOpMode {
             boolean autoOutToIn = gamepad2.left_stick_button;
             boolean autoInToOut = gamepad2.right_stick_button;
 
-            double SPEED_MULTIPLIER = 0.875;
+            double SPEED_MULTIPLIER = 0.95;
 
 
             double normalizingFactor = Math.max(Math.abs(verticalComponent)
@@ -153,10 +153,10 @@ public class testTele extends LinearOpMode {
             //Slides Out/In
 
             if (slideOut){
-                robot.slides.setPower(0.75);
+                robot.slides.setPower(0.4);
             }
             else if (slideIn){
-                robot.slides.setPower(0.75 * -1);
+                robot.slides.setPower(0.4 * -1);
             }
             else{
                 robot.slides.setPower(0);
@@ -199,10 +199,10 @@ public class testTele extends LinearOpMode {
 
 
             if (pixelHolding){
-                robot.pixelHolder.setPower(0.75);
+                robot.pixelHolder.setPower(1);
             }
             else if (pixelRemove){
-                robot.pixelHolder.setPower(0.5 * -1);
+                robot.pixelHolder.setPower(-1);
             }
             else{
                 robot.pixelHolder.setPower(0);
@@ -211,10 +211,10 @@ public class testTele extends LinearOpMode {
 
 
             if (rotateHookPos){
-                robot.hook.setPower(0.75);
+                robot.hook.setPower(1);
             }
             else if (rotateHookNeg){
-                robot.hook.setPower(-1 * 0.75);
+                robot.hook.setPower(-1);
             }
             else{
                 robot.hook.setPower(0);
@@ -232,7 +232,7 @@ public class testTele extends LinearOpMode {
                     robot.leftRollerArm.setPower(0.75);
                     robot.rightRollerArm.setPower(0.75);
                 }
-                for (int d = 0; d < 10000; d ++){
+                for (int f = 0; f < 10000; f ++){
                     robot.airplaneLauncher.setPower(0);
                 }
                 for (int s = 0; s < 40000; s ++){
@@ -251,13 +251,17 @@ public class testTele extends LinearOpMode {
                     robot.leftRollerArm.setPower(-1 * 0.75);
                     robot.rightRollerArm.setPower(-1 * 0.75);
                 }
-                for (int p = 0; p < 20000; p++){
-                    robot.leftSlideRotate.setPower(-1 * 0.7);
-                    robot.rightSlideRotate.setPower(-1 * 0.7);
+                for (int p = 0; p < 25000; p++){
+                    robot.leftSlideRotate.setPower(-1 * 0.4);
+                    robot.rightSlideRotate.setPower(-1 * 0.4);
                 }
-                for (int e = 0; e < 10000; e++){
+                for (int e = 0; e < 50000; e++){
                     robot.leftRollerArm.setPower(0.75);
                     robot.rightRollerArm.setPower(0.75);
+                }
+                Thread.sleep(250);
+                for (int l = 0; l < 30000; l++){
+                    robot.slides.setPower(0.7);
                 }
             }
 
