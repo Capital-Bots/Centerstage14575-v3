@@ -1,25 +1,23 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-import static org.firstinspires.ftc.teamcode.opencv.OpenCVRed.getDistance;
+import static org.firstinspires.ftc.teamcode.opencv.OpenCVBlue.getDistance;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.opencv.OpenCVRed;
-import org.firstinspires.ftc.teamcode.opencv.OpenCVRed.RedBlobDetectionPipeline;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import java.util.concurrent.TimeUnit;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.opencv.OpenCVBlue;
+import org.firstinspires.ftc.teamcode.opencv.OpenCVBlue.blueBlobDetectionPipeline;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "Red Auto Close", group = "RedSide")
-public class AutoRedClose extends LinearOpMode{
+@Autonomous(name = "Blue Auto Close", group = "BlueSide")
+public class AutoBlueClose extends LinearOpMode{
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
     private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 480; // height of wanted camera resolution
@@ -53,15 +51,16 @@ public class AutoRedClose extends LinearOpMode{
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
         while (!opModeIsActive()) {
-            telemetry.addData("Coordinate", "(" + (int) OpenCVRed.cX + ", " + (int) OpenCVRed.cY + ")");
-            telemetry.addData("Distance in Inch", (getDistance(OpenCVRed.width)));
+            telemetry.addData("Coordinate", "(" + (int) OpenCVBlue.cX + ", " + (int) OpenCVBlue.cY + ")");
+            telemetry.addData("Distance in Inch", (getDistance(OpenCVBlue.width)));
+            telemetry.addData("Width", OpenCVBlue.width);
 
-            if(OpenCVRed.cX < 300 && OpenCVRed.cX >= 0){
-                location = 0;
-            } else if(OpenCVRed.cX > 300){
+            if(OpenCVBlue.cX < 500 && OpenCVBlue.cX >= 0){
                 location = 1;
-            } else{
+            } else if(OpenCVBlue.cX > 500){
                 location = 2;
+            } else{
+                location = 0;
             }
 
 
@@ -82,7 +81,7 @@ public class AutoRedClose extends LinearOpMode{
 
         if (opModeIsActive()) {
             if (location ==1){
-                for (long stop = System.nanoTime()+ 1900000000; stop>System.nanoTime();) {
+                for (long stop = System.nanoTime()+ 1700000000; stop>System.nanoTime();) {
                     leftFrontDrive.setPower(-0.4);
                     rightFrontDrive.setPower(-0.5);
                     leftBackDrive.setPower(-0.4);
@@ -95,7 +94,7 @@ public class AutoRedClose extends LinearOpMode{
                 }
             }
             else{
-                for (long stop = System.nanoTime()+ 1650000000; stop>System.nanoTime();) {
+                for (long stop = System.nanoTime()+ 140000000; stop>System.nanoTime();) {
                     leftFrontDrive.setPower(-0.4);
                     rightFrontDrive.setPower(-0.5);
                     leftBackDrive.setPower(-0.4);
@@ -109,7 +108,7 @@ public class AutoRedClose extends LinearOpMode{
             }
 
 
-            for (long stop = System.nanoTime() + 1900000000; stop>System.nanoTime();) {
+            for (long stop = System.nanoTime() + 1600000000; stop>System.nanoTime();) {
                 if(location == 0) {
                     rightFrontDrive.setPower(0);
                     leftBackDrive.setPower(-0.43);
@@ -145,7 +144,7 @@ public class AutoRedClose extends LinearOpMode{
         controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
                 hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        controlHubCam.setPipeline(new RedBlobDetectionPipeline());
+        controlHubCam.setPipeline(new blueBlobDetectionPipeline());
 
         controlHubCam.openCameraDevice(); //I don't know why this is deprecated
         controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
