@@ -55,9 +55,9 @@ public class AutoBlueClose extends LinearOpMode{
             telemetry.addData("Distance in Inch", (getDistance(OpenCVBlue.width)));
             telemetry.addData("Width", OpenCVBlue.width);
 
-            if(OpenCVBlue.cX < 500 && OpenCVBlue.cX >= 0){
+            if(OpenCVBlue.cX < 425 && OpenCVBlue.cX >= 0){
                 location = 1;
-            } else if(OpenCVBlue.cX > 500){
+            } else if(OpenCVBlue.cX > 425){
                 location = 2;
             } else{
                 location = 0;
@@ -94,7 +94,7 @@ public class AutoBlueClose extends LinearOpMode{
                 }
             }
             else{
-                for (long stop = System.nanoTime()+ 140000000; stop>System.nanoTime();) {
+                for (long stop = System.nanoTime()+ 1400000000; stop>System.nanoTime();) {
                     leftFrontDrive.setPower(-0.4);
                     rightFrontDrive.setPower(-0.5);
                     leftBackDrive.setPower(-0.4);
@@ -108,7 +108,19 @@ public class AutoBlueClose extends LinearOpMode{
             }
 
 
-            for (long stop = System.nanoTime() + 1600000000; stop>System.nanoTime();) {
+            for (long stop = System.nanoTime() + 1000000000; stop>System.nanoTime();) {
+                if(location == 2) {
+                    rightFrontDrive.setPower(-0.3);
+                    leftBackDrive.setPower(0.525);
+                    rightBackDrive.setPower(-0.525);
+                    leftFrontDrive.setPower(-0.3);
+                    rightSlideRotate.setPower(.35);
+                    leftSlideRotate.setPower(.35);
+                    telemetry.update();
+                    opModeIsActive();;
+                }else{break;}
+            }
+            for (long stop = System.nanoTime() + 2000000000 + 600000000; stop > System.nanoTime();){
                 if(location == 0) {
                     rightFrontDrive.setPower(0);
                     leftBackDrive.setPower(-0.43);
@@ -118,18 +130,7 @@ public class AutoBlueClose extends LinearOpMode{
                     leftSlideRotate.setPower(.35);
                     telemetry.update();
                     opModeIsActive();
-                }else if(location == 1){
-                    break;
-                }else {
-                    rightFrontDrive.setPower(-0.3);
-                    leftBackDrive.setPower(0.525);
-                    rightBackDrive.setPower(-0.525);
-                    leftFrontDrive.setPower(-0.3);
-                    rightSlideRotate.setPower(.35);
-                    leftSlideRotate.setPower(.35);
-                    telemetry.update();
-                    opModeIsActive();;
-                }
+                }else{break;}
             }
         }
 
