@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import static org.firstinspires.ftc.teamcode.opencv.OpenCVRed.getDistance;
 
@@ -15,8 +15,6 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-
-import java.util.concurrent.TimeUnit;
 
 @Autonomous(name = "Red Auto Close", group = "RedSide")
 public class AutoRedClose extends LinearOpMode{
