@@ -73,7 +73,7 @@ public class testHardware {
     public CRServo leftRollerArm   = null;
     public CRServo rightRollerArm  = null;
     public CRServo airplaneLauncher = null;
-    public CRServo pixelHolder      = null;
+    public Servo pixelHolder      = null;
 
 
     public testHardware() {
@@ -104,7 +104,7 @@ public class testHardware {
         leftRollerArm = hwMap.get(CRServo.class, "leftRollerArm");
         rightRollerArm = hwMap.get(CRServo.class, "rightRollerArm");
         airplaneLauncher = hwMap.get(CRServo.class, "airplaneLauncher");
-        pixelHolder = hwMap.get(CRServo.class, "pixelHolder");
+        pixelHolder = hwMap.get(Servo.class, "pixelHolder");
 
 
 
@@ -120,7 +120,6 @@ public class testHardware {
         leftRollerArm.setDirection(CRServo.Direction.REVERSE);
         rightRollerArm.setDirection(CRServo.Direction.FORWARD);
         airplaneLauncher.setDirection(CRServo.Direction.REVERSE);
-        pixelHolder.setDirection(CRServo.Direction.FORWARD);
         hook.setDirection(DcMotor.Direction.REVERSE);
 
 

@@ -199,13 +199,10 @@ public class testTele extends LinearOpMode {
 
 
             if (pixelHolding){
-                robot.pixelHolder.setPower(1);
-            }
-            else if (pixelRemove){
-                robot.pixelHolder.setPower(-1);
+                robot.pixelHolder.setPosition(40);
             }
             else{
-                robot.pixelHolder.setPower(0);
+                robot.pixelHolder.setPosition(0);
             }
 
 
