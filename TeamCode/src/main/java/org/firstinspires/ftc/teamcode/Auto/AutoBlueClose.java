@@ -47,9 +47,9 @@ public class AutoBlueClose extends LinearOpMode{
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         initOpenCV();
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+        //FtcDashboard dashboard = FtcDashboard.getInstance();
+        //telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        //FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
         while (!opModeIsActive()) {
             telemetry.addData("Coordinate", "(" + (int) OpenCVBlue.cX + ", " + (int) OpenCVBlue.cY + ")");

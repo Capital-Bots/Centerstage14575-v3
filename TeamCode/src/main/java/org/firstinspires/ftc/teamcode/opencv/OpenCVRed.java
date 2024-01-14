@@ -24,7 +24,7 @@ public class OpenCVRed{
 
 
     // Calculate the distance using the formula
-    public static final double objectWidthInRealWorldUnits = 3.7;  //For future devs, replace with the actual width of the object in real-world units
+    public static final double objectWidthInRealWorldUnits = 3.7;  //For future devs, replace with the actual width of the object in real-world units. Not necessary if you are only using object detection
     public static final double focalLength = 746.153846;  // Replace with the focal length of the camera in pixels (Shouldn't change if we are using the same camera)
 
 
