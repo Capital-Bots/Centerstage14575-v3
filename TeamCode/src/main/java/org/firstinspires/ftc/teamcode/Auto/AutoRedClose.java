@@ -81,8 +81,8 @@ public class AutoRedClose extends LinearOpMode{
 
 
         if (opModeIsActive()) {
-            if (location ==1){
-                for (long stop = System.nanoTime()+ 1900000000; stop>System.nanoTime();) {
+            if (location == 1) {
+                for (long stop = System.nanoTime() + 1900000000; stop > System.nanoTime(); ) {
                     leftFrontDrive.setPower(-0.4);
                     rightFrontDrive.setPower(-0.5);
                     leftBackDrive.setPower(-0.4);
@@ -93,9 +93,24 @@ public class AutoRedClose extends LinearOpMode{
                     telemetry.update();
                     opModeIsActive();
                 }
-            }
-            else{
-                for (long stop = System.nanoTime()+ 1650000000; stop>System.nanoTime();) {
+                for (long stop = System.nanoTime() + 1000000000; stop > System.nanoTime(); ) {
+                    leftFrontDrive.setPower(0.4);
+                    rightFrontDrive.setPower(0.5);
+                    leftBackDrive.setPower(0.4);
+                    rightBackDrive.setPower(0.5);
+                    rightSlideRotate.setPower(0.35);
+                    leftSlideRotate.setPower(0.35);
+                }
+                for (long stop = System.nanoTime() + 2147470000; stop > System.nanoTime(); ) {
+                    leftFrontDrive.setPower(0.6);
+                    rightFrontDrive.setPower(-1 * 0.75);
+                    leftBackDrive.setPower(-1 * 0.75);
+                    rightBackDrive.setPower(0.6);
+                    rightSlideRotate.setPower(0.35);
+                    leftSlideRotate.setPower(0.35);
+                }
+            } else {
+                for (long stop = System.nanoTime() + 1450000000; stop > System.nanoTime(); ) {
                     leftFrontDrive.setPower(-0.4);
                     rightFrontDrive.setPower(-0.5);
                     leftBackDrive.setPower(-0.4);
@@ -108,9 +123,10 @@ public class AutoRedClose extends LinearOpMode{
                 }
             }
 
-
-            for (long stop = System.nanoTime() + 1900000000; stop>System.nanoTime();) {
-                if(location == 0) {
+            boolean o = false;
+            boolean t = false;
+            for (long stop = System.nanoTime() + 2000000000; stop > System.nanoTime(); ) {
+                if (location == 0) {
                     rightFrontDrive.setPower(0);
                     leftBackDrive.setPower(-0.43);
                     rightBackDrive.setPower(0.43);
@@ -119,9 +135,10 @@ public class AutoRedClose extends LinearOpMode{
                     leftSlideRotate.setPower(.35);
                     telemetry.update();
                     opModeIsActive();
-                }else if(location == 1){
+                    o = true;
+                } else if (location == 1) {
                     break;
-                }else {
+                } else {
                     rightFrontDrive.setPower(-0.3);
                     leftBackDrive.setPower(0.525);
                     rightBackDrive.setPower(-0.525);
@@ -129,11 +146,39 @@ public class AutoRedClose extends LinearOpMode{
                     rightSlideRotate.setPower(.35);
                     leftSlideRotate.setPower(.35);
                     telemetry.update();
-                    opModeIsActive();;
+                    opModeIsActive();
+                    t = true;
                 }
             }
+            for (long stop = System.nanoTime() + 2000000000; stop > System.nanoTime(); ) {
+                if (t) {
+                    rightFrontDrive.setPower(0.3);
+                    leftBackDrive.setPower(-1 * 0.525);
+                    rightBackDrive.setPower(0.525);
+                    leftFrontDrive.setPower(0.3);
+                    rightSlideRotate.setPower(.35);
+                    leftSlideRotate.setPower(.35);
+                    telemetry.update();
+                    opModeIsActive();
+                }
+                if (o) {
+                    rightFrontDrive.setPower(0);
+                    leftBackDrive.setPower(0.43);
+                    rightBackDrive.setPower(-1 * 0.43);
+                    leftFrontDrive.setPower(0);
+                    rightSlideRotate.setPower(.35);
+                    leftSlideRotate.setPower(.35);
+                    telemetry.update();
+                    opModeIsActive();
+                }
+            }
+            for (long stop = System.nanoTime() + 2000000000; stop > System.nanoTime(); ) {
+                leftFrontDrive.setPower(0.6);
+                rightFrontDrive.setPower(-1 * 0.75);
+                leftBackDrive.setPower(-1 * 0.75);
+                rightBackDrive.setPower(0.75);
+            }
         }
-
     }
     private void initOpenCV() {
 
