@@ -42,7 +42,7 @@ public class OpenCVRed{
             // Find the largest Red contour (blob)
             MatOfPoint largestContour = findLargestContour(contours);
 
-            if (largestContour != null && calculateWidth(largestContour) > 95 && !((Imgproc.moments(largestContour).get_m10() / Imgproc.moments(largestContour).get_m00()) >= 45 && (Imgproc.moments(largestContour).get_m10() / Imgproc.moments(largestContour).get_m00() <= 73)) && !(Imgproc.moments(largestContour).get_m10() / Imgproc.moments(largestContour).get_m00() == 0)) {
+            if (largestContour != null && calculateWidth(largestContour) > 90) {
                 // Draw a Red outline around the largest detected object
                 Imgproc.drawContours(input, contours, contours.indexOf(largestContour), new Scalar(255, 0, 0), 2);
                 // Calculate the width of the bounding box
@@ -66,7 +66,7 @@ public class OpenCVRed{
 
 
             }
-            if(largestContour != null && calculateWidth(largestContour)<95){
+            if(largestContour != null && calculateWidth(largestContour)<90){
                 cX = -10;
             }
             return input;

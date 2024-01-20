@@ -42,7 +42,7 @@ public class OpenCVBlue{
             // Find the largest blue contour (blob)
             MatOfPoint largestContour = findLargestContour(contours);
 
-            if (largestContour != null && calculateWidth(largestContour) > 90) {
+            if (largestContour != null && calculateWidth(largestContour) > 95 && !((Imgproc.moments(largestContour).get_m10() / Imgproc.moments(largestContour).get_m00()) >= 45 && (Imgproc.moments(largestContour).get_m10() / Imgproc.moments(largestContour).get_m00() <= 72)) && !(Imgproc.moments(largestContour).get_m10() / Imgproc.moments(largestContour).get_m00() == 0)) {
                 // Draw a blue outline around the largest detected object
                 Imgproc.drawContours(input, contours, contours.indexOf(largestContour), new Scalar(0, 0, 255), 2);
                 // Calculate the width of the bounding box

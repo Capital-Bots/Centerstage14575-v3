@@ -7,7 +7,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.opencv.OpenCVBlue;
 import org.firstinspires.ftc.teamcode.opencv.OpenCVBlue.blueBlobDetectionPipeline;
@@ -19,8 +18,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Blue Auto Close", group = "BlueSide")
-public class AutoBlueClose extends LinearOpMode{
+@Autonomous(name = "AutoBlueFar", group = "BlueSide")
+public class AutoBlueFar extends LinearOpMode{
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
     private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 480; // height of wanted camera resolution
@@ -29,7 +28,7 @@ public class AutoBlueClose extends LinearOpMode{
     public DcMotor leftBackDrive    = null;
     public DcMotor rightBackDrive   = null;
     public DcMotor rightSlideRotate = null;
-    public DcMotor leftSlideRotate = null;
+    public DcMotor leftSlideRotate  = null;
     public DcMotorEx leftEncoder    = null;
     public DcMotorEx rightEncoder   = null;
     public int location = 2;
@@ -94,19 +93,11 @@ public class AutoBlueClose extends LinearOpMode{
                     telemetry.update();
                     opModeIsActive();
                 }
-                for (long stop = System.nanoTime() + 1000000000; stop > System.nanoTime(); ) {
+                for (long stop = System.nanoTime() + 900000000; stop > System.nanoTime(); ) {
                     leftFrontDrive.setPower(0.4);
                     rightFrontDrive.setPower(0.5);
                     leftBackDrive.setPower(0.4);
                     rightBackDrive.setPower(0.5);
-                    rightSlideRotate.setPower(0.35);
-                    leftSlideRotate.setPower(0.35);
-                }
-                for (long stop = System.nanoTime() + 2147470000; stop > System.nanoTime(); ) {
-                    leftFrontDrive.setPower(0.6);
-                    rightFrontDrive.setPower(-1 * 0.75);
-                    leftBackDrive.setPower(-1 * 0.75);
-                    rightBackDrive.setPower(0.6);
                     rightSlideRotate.setPower(0.35);
                     leftSlideRotate.setPower(0.35);
                 }
@@ -150,34 +141,6 @@ public class AutoBlueClose extends LinearOpMode{
                     opModeIsActive();
                     t = true;
                 }
-            }
-            for (long stop = System.nanoTime() + 2000000000; stop > System.nanoTime(); ) {
-                if (t) {
-                    rightFrontDrive.setPower(0.3);
-                    leftBackDrive.setPower(-1 * 0.525);
-                    rightBackDrive.setPower(0.525);
-                    leftFrontDrive.setPower(0.3);
-                    rightSlideRotate.setPower(.35);
-                    leftSlideRotate.setPower(.35);
-                    telemetry.update();
-                    opModeIsActive();
-                }
-                if (o) {
-                    rightFrontDrive.setPower(0);
-                    leftBackDrive.setPower(0.43);
-                    rightBackDrive.setPower(-1 * 0.43);
-                    leftFrontDrive.setPower(0);
-                    rightSlideRotate.setPower(.35);
-                    leftSlideRotate.setPower(.35);
-                    telemetry.update();
-                    opModeIsActive();
-                }
-            }
-            for (long stop = System.nanoTime() + 2000000000; stop > System.nanoTime(); ) {
-                leftFrontDrive.setPower(0.6);
-                rightFrontDrive.setPower(-1 * 0.75);
-                leftBackDrive.setPower(-1 * 0.75);
-                rightBackDrive.setPower(0.75);
             }
         }
     }

@@ -4,19 +4,18 @@ import static org.firstinspires.ftc.teamcode.opencv.OpenCVRed.getDistance;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.opencv.OpenCVRed;
 import org.firstinspires.ftc.teamcode.opencv.OpenCVRed.RedBlobDetectionPipeline;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-
-import java.util.concurrent.TimeUnit;
 
 @Autonomous(name = "Red Auto Close", group = "RedSide")
 public class AutoRedClose extends LinearOpMode{
@@ -55,13 +54,14 @@ public class AutoRedClose extends LinearOpMode{
         while (!opModeIsActive()) {
             telemetry.addData("Coordinate", "(" + (int) OpenCVRed.cX + ", " + (int) OpenCVRed.cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(OpenCVRed.width)));
+            telemetry.addData("Width", OpenCVRed.width);
 
-            if(OpenCVRed.cX < 300 && OpenCVRed.cX >= 0){
-                location = 0;
-            } else if(OpenCVRed.cX > 300){
+            if(OpenCVRed.cX < 425 && OpenCVRed.cX >= 0){
                 location = 1;
-            } else{
+            } else if(OpenCVRed.cX > 425){
                 location = 2;
+            } else{
+                location = 0;
             }
 
 
@@ -81,8 +81,8 @@ public class AutoRedClose extends LinearOpMode{
 
 
         if (opModeIsActive()) {
-            if (location == 1) {
-                for (long stop = System.nanoTime() + 1900000000; stop > System.nanoTime(); ) {
+            if (location ==1){
+                for (long stop = System.nanoTime()+ 1700000000; stop>System.nanoTime();) {
                     leftFrontDrive.setPower(-0.4);
                     rightFrontDrive.setPower(-0.5);
                     leftBackDrive.setPower(-0.4);
@@ -93,24 +93,9 @@ public class AutoRedClose extends LinearOpMode{
                     telemetry.update();
                     opModeIsActive();
                 }
-                for (long stop = System.nanoTime() + 1000000000; stop > System.nanoTime(); ) {
-                    leftFrontDrive.setPower(0.4);
-                    rightFrontDrive.setPower(0.5);
-                    leftBackDrive.setPower(0.4);
-                    rightBackDrive.setPower(0.5);
-                    rightSlideRotate.setPower(0.35);
-                    leftSlideRotate.setPower(0.35);
-                }
-                for (long stop = System.nanoTime() + 2147470000; stop > System.nanoTime(); ) {
-                    leftFrontDrive.setPower(0.6);
-                    rightFrontDrive.setPower(-1 * 0.75);
-                    leftBackDrive.setPower(-1 * 0.75);
-                    rightBackDrive.setPower(0.6);
-                    rightSlideRotate.setPower(0.35);
-                    leftSlideRotate.setPower(0.35);
-                }
-            } else {
-                for (long stop = System.nanoTime() + 1450000000; stop > System.nanoTime(); ) {
+            }
+            else{
+                for (long stop = System.nanoTime()+ 1400000000; stop>System.nanoTime();) {
                     leftFrontDrive.setPower(-0.4);
                     rightFrontDrive.setPower(-0.5);
                     leftBackDrive.setPower(-0.4);
@@ -123,10 +108,21 @@ public class AutoRedClose extends LinearOpMode{
                 }
             }
 
-            boolean o = false;
-            boolean t = false;
-            for (long stop = System.nanoTime() + 2000000000; stop > System.nanoTime(); ) {
-                if (location == 0) {
+
+            for (long stop = System.nanoTime() + 1000000000; stop>System.nanoTime();) {
+                if(location == 2) {
+                    rightFrontDrive.setPower(-0.3);
+                    leftBackDrive.setPower(0.525);
+                    rightBackDrive.setPower(-0.525);
+                    leftFrontDrive.setPower(-0.3);
+                    rightSlideRotate.setPower(.35);
+                    leftSlideRotate.setPower(.35);
+                    telemetry.update();
+                    opModeIsActive();;
+                }else{break;}
+            }
+            for (long stop = System.nanoTime() + 2000000000 + 600000000; stop > System.nanoTime();){
+                if(location == 0) {
                     rightFrontDrive.setPower(0);
                     leftBackDrive.setPower(-0.43);
                     rightBackDrive.setPower(0.43);
@@ -135,50 +131,10 @@ public class AutoRedClose extends LinearOpMode{
                     leftSlideRotate.setPower(.35);
                     telemetry.update();
                     opModeIsActive();
-                    o = true;
-                } else if (location == 1) {
-                    break;
-                } else {
-                    rightFrontDrive.setPower(-0.3);
-                    leftBackDrive.setPower(0.525);
-                    rightBackDrive.setPower(-0.525);
-                    leftFrontDrive.setPower(-0.3);
-                    rightSlideRotate.setPower(.35);
-                    leftSlideRotate.setPower(.35);
-                    telemetry.update();
-                    opModeIsActive();
-                    t = true;
-                }
-            }
-            for (long stop = System.nanoTime() + 2000000000; stop > System.nanoTime(); ) {
-                if (t) {
-                    rightFrontDrive.setPower(0.3);
-                    leftBackDrive.setPower(-1 * 0.525);
-                    rightBackDrive.setPower(0.525);
-                    leftFrontDrive.setPower(0.3);
-                    rightSlideRotate.setPower(.35);
-                    leftSlideRotate.setPower(.35);
-                    telemetry.update();
-                    opModeIsActive();
-                }
-                if (o) {
-                    rightFrontDrive.setPower(0);
-                    leftBackDrive.setPower(0.43);
-                    rightBackDrive.setPower(-1 * 0.43);
-                    leftFrontDrive.setPower(0);
-                    rightSlideRotate.setPower(.35);
-                    leftSlideRotate.setPower(.35);
-                    telemetry.update();
-                    opModeIsActive();
-                }
-            }
-            for (long stop = System.nanoTime() + 2000000000; stop > System.nanoTime(); ) {
-                leftFrontDrive.setPower(0.6);
-                rightFrontDrive.setPower(-1 * 0.75);
-                leftBackDrive.setPower(-1 * 0.75);
-                rightBackDrive.setPower(0.75);
+                }else{break;}
             }
         }
+
     }
     private void initOpenCV() {
 
