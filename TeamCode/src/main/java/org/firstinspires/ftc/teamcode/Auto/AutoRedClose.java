@@ -20,8 +20,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous(name = "Red Auto Close", group = "RedSide")
 public class AutoRedClose extends LinearOpMode{
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
-    private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
-    private static final int CAMERA_HEIGHT = 480; // height of wanted camera resolution
+    private static final int CAMERA_WIDTH = 1920; // width  of wanted camera resolution
+    private static final int CAMERA_HEIGHT = 1080; // height of wanted camera resolution
     public DcMotor leftFrontDrive   = null;
     public DcMotor rightFrontDrive  = null;
     public DcMotor leftBackDrive    = null;
@@ -47,18 +47,18 @@ public class AutoRedClose extends LinearOpMode{
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         initOpenCV();
-        //FtcDashboard dashboard = FtcDashboard.getInstance();
-        //telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        //FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
         while (!opModeIsActive()) {
             telemetry.addData("Coordinate", "(" + (int) OpenCVRed.cX + ", " + (int) OpenCVRed.cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(OpenCVRed.width)));
             telemetry.addData("Width", OpenCVRed.width);
 
-            if(OpenCVRed.cX < 425 && OpenCVRed.cX >= 0){
+            if(OpenCVRed.cX < 550 && OpenCVRed.cX >= 0){
                 location = 1;
-            } else if(OpenCVRed.cX > 425){
+            } else if(OpenCVRed.cX >= 550 && OpenCVRed.cX < 2*CAMERA_WIDTH/3){
                 location = 2;
             } else{
                 location = 0;

@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.opencv.OpenCVBlue;
 import org.firstinspires.ftc.teamcode.opencv.OpenCVBlue.blueBlobDetectionPipeline;
+import org.firstinspires.ftc.teamcode.opencv.OpenCVRed;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -22,8 +23,8 @@ import java.util.concurrent.TimeUnit;
 @Autonomous(name = "Blue Auto Close", group = "BlueSide")
 public class AutoBlueClose extends LinearOpMode{
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
-    private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
-    private static final int CAMERA_HEIGHT = 480; // height of wanted camera resolution
+    private static final int CAMERA_WIDTH = 1920; // width  of wanted camera resolution
+    private static final int CAMERA_HEIGHT = 1080; // height of wanted camera resolution
     public DcMotor leftFrontDrive   = null;
     public DcMotor rightFrontDrive  = null;
     public DcMotor leftBackDrive    = null;
@@ -49,20 +50,20 @@ public class AutoBlueClose extends LinearOpMode{
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         initOpenCV();
-        //FtcDashboard dashboard = FtcDashboard.getInstance();
-        //telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        //FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
         while (!opModeIsActive()) {
             telemetry.addData("Coordinate", "(" + (int) OpenCVBlue.cX + ", " + (int) OpenCVBlue.cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(OpenCVBlue.width)));
 
-            if(OpenCVBlue.cX < 300 && OpenCVBlue.cX >= 0){
-                location = 0;
-            } else if(OpenCVBlue.cX > 300){
+            if(OpenCVRed.cX < CAMERA_WIDTH/3 && OpenCVRed.cX >= 0){
                 location = 1;
-            } else{
+            } else if(OpenCVRed.cX >= CAMERA_WIDTH/3 && OpenCVRed.cX < 2*CAMERA_WIDTH/3){
                 location = 2;
+            } else{
+                location = 0;
             }
 
 

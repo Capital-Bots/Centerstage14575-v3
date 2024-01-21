@@ -20,8 +20,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous(name = "Red Auto Far", group = "RedSide")
 public class AutoRedFar extends LinearOpMode{
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
-    private static final int CAMERA_WIDTH = 640; // width  of wanted camera resolution
-    private static final int CAMERA_HEIGHT = 480; // height of wanted camera resolution
+    private static final int CAMERA_WIDTH = 1920; // width  of wanted camera resolution
+    private static final int CAMERA_HEIGHT = 1080; // height of wanted camera resolution
     public DcMotor leftFrontDrive   = null;
     public DcMotor rightFrontDrive  = null;
     public DcMotor leftBackDrive    = null;
@@ -47,21 +47,21 @@ public class AutoRedFar extends LinearOpMode{
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         initOpenCV();
-        //FtcDashboard dashboard = FtcDashboard.getInstance();
-        //telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        //FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
         while (!opModeIsActive()) {
             telemetry.addData("Coordinate", "(" + (int) OpenCVRed.cX + ", " + (int) OpenCVRed.cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(OpenCVRed.width)));
             telemetry.addData("Width", OpenCVRed.width);
 
-            if(OpenCVRed.cX < 425 && OpenCVRed.cX >= 0){
-                location = 1;
-            } else if(OpenCVRed.cX > 425){
-                location = 2;
-            } else{
+            if(OpenCVRed.cX < 550 && OpenCVRed.cX >= 0){
                 location = 0;
+            } else if(OpenCVRed.cX >= 550 && OpenCVRed.cX < 2*CAMERA_WIDTH/3){
+                location = 1;
+            } else{
+                location = 2;
             }
 
 
@@ -82,24 +82,58 @@ public class AutoRedFar extends LinearOpMode{
 
         if (opModeIsActive()) {
             if (location ==1){
-                for (long stop = System.nanoTime()+ 1700000000; stop>System.nanoTime();) {
+                for (long stop = System.nanoTime()+ 2000000000; stop>System.nanoTime();) {
                     leftFrontDrive.setPower(-0.4);
-                    rightFrontDrive.setPower(-0.5);
+                    rightFrontDrive.setPower(-0.4);
                     leftBackDrive.setPower(-0.4);
-                    rightBackDrive.setPower(-0.5);
+                    rightBackDrive.setPower(-0.4);
                     rightSlideRotate.setPower(.35);
                     leftSlideRotate.setPower(.35);
+
+
                     telemetry.addData("Time: ", stop);
                     telemetry.update();
                     opModeIsActive();
+                }
+                for (long stop = System.nanoTime() + 1000000000; stop>System.nanoTime();){
+                    leftFrontDrive.setPower(0);
+                    rightFrontDrive.setPower(0);
+                    leftBackDrive.setPower(0);
+                    rightBackDrive.setPower(0);
+                    rightSlideRotate.setPower(.35);
+                    leftSlideRotate.setPower(.35);
+                }
+                for (long stop = System.nanoTime() + 1750000000; stop>System.nanoTime();){
+                    leftFrontDrive.setPower(0.4);
+                    rightFrontDrive.setPower(0.4);
+                    leftBackDrive.setPower(0.4);
+                    rightBackDrive.setPower(0.4);
+                    rightSlideRotate.setPower(0.35);
+                    leftSlideRotate.setPower(0.35);
+                }
+                for (long stop = System.nanoTime() + 1000000000; stop>System.nanoTime();){
+                    leftFrontDrive.setPower(0);
+                    rightFrontDrive.setPower(0);
+                    leftBackDrive.setPower(0);
+                    rightBackDrive.setPower(0);
+                    rightSlideRotate.setPower(.35);
+                    leftSlideRotate.setPower(.35);
+                }
+                for (long stop = System.nanoTime() + 2000000000; stop>System.nanoTime();){
+                    leftFrontDrive.setPower(0.7 * -1);
+                    rightFrontDrive.setPower(0.7);
+                    leftBackDrive.setPower(0.7);
+                    rightBackDrive.setPower(0.7 * -1);
+                    rightSlideRotate.setPower(0.35);
+                    leftSlideRotate.setPower(0.35);
                 }
             }
             else{
                 for (long stop = System.nanoTime()+ 900000000; stop>System.nanoTime();) {
                     leftFrontDrive.setPower(-0.4);
-                    rightFrontDrive.setPower(-0.5);
+                    rightFrontDrive.setPower(-0.4);
                     leftBackDrive.setPower(-0.4);
-                    rightBackDrive.setPower(-0.5);
+                    rightBackDrive.setPower(-0.4);
                     rightSlideRotate.setPower(.35);
                     leftSlideRotate.setPower(.35);
                     telemetry.addData("Time: ", stop);
