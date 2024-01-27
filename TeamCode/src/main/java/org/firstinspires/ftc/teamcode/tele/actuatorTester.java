@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.HardwareClasses.HardwareFourWheel;
+import org.firstinspires.ftc.teamcode.HardwareClasses.actuatorTesting;
 
 
 /**
@@ -50,13 +50,13 @@ import org.firstinspires.ftc.teamcode.HardwareClasses.HardwareFourWheel;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Teleop Zoeb", group="Linear Opmode")
+@TeleOp(name="Actuator Test", group="Linear Opmode")
 
-public class Zoeb_TeleOp_First extends LinearOpMode {
+public class actuatorTester extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private HardwareFourWheel robot = new HardwareFourWheel();
+    private actuatorTesting robot = new actuatorTesting();
 
     @Override
     public void runOpMode() {
@@ -66,26 +66,18 @@ public class Zoeb_TeleOp_First extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-
-            double leftPower;
-            double rightPower;
-
-
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
-
-            leftPower    = Range.clip(drive + turn, -0.5, 0.5) ;
-            rightPower   = Range.clip(drive - turn, -0.5, 0.5) ;
-
-
-            robot.leftFrontDrive.setPower(leftPower);
-            robot.rightFrontDrive.setPower(rightPower);
-            robot.leftBackDrive.setPower(leftPower);
-            robot.rightBackDrive.setPower(rightPower);
+            if (gamepad1.y){
+                robot.linearActuator.setPower(0.5);
+            }
+            else if (gamepad1.a){
+                robot.linearActuator.setPower(-1 * 0.5);
+            }
+            else{
+                robot.linearActuator.setPower(0);
+            }
 
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
         }
     }

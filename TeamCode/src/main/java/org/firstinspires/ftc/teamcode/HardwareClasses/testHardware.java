@@ -29,8 +29,11 @@
 
 package org.firstinspires.ftc.teamcode.HardwareClasses;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
@@ -51,7 +54,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  *
  */
 
-public class HardwareFourWheel {
+public class testHardware {
 
     private HardwareMap hwMap = null;
 
@@ -59,9 +62,21 @@ public class HardwareFourWheel {
     public DcMotor rightFrontDrive  = null;
     public DcMotor leftBackDrive    = null;
     public DcMotor rightBackDrive   = null;
-    public DcMotor slideRotation    = null;
+    public DcMotor leftSlideRotate  = null;
+    public DcMotor rightSlideRotate = null;
+    public DcMotor slides           = null;
+    public DcMotor hook             = null;
 
-    public HardwareFourWheel () {
+
+    public CRServo leftRoller       = null;
+    public CRServo rightRoller      = null;
+    public CRServo leftRollerArm   = null;
+    public CRServo rightRollerArm  = null;
+    public CRServo airplaneLauncher = null;
+    public CRServo pixelHolder      = null;
+
+
+    public testHardware() {
     }
 
     /**
@@ -77,19 +92,54 @@ public class HardwareFourWheel {
         leftBackDrive  = hwMap.get(DcMotor.class, "leftRear");
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFront");
         rightBackDrive = hwMap.get(DcMotor.class, "rightRear");
-        slideRotation = hwMap.get(DcMotor.class, "slideRotate");
+        leftSlideRotate = hwMap.get(DcMotor.class, "leftSlideRotate");
+        rightSlideRotate = hwMap.get(DcMotor.class, "rightSlideRotate");
+        slides = hwMap.get(DcMotor.class, "slides");
+        hook = hwMap.get(DcMotor.class, "hook");
+
+
+        leftRoller = hwMap.get(CRServo.class, "leftRoller");
+        rightRoller = hwMap.get(CRServo.class, "rightRoller");
+        leftRoller = hwMap.get(CRServo.class, "leftRoller");
+        leftRollerArm = hwMap.get(CRServo.class, "leftRollerArm");
+        rightRollerArm = hwMap.get(CRServo.class, "rightRollerArm");
+        airplaneLauncher = hwMap.get(CRServo.class, "airplaneLauncher");
+        pixelHolder = hwMap.get(CRServo.class, "pixelHolder");
+
 
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftSlideRotate.setDirection(DcMotor.Direction.REVERSE);
+        rightSlideRotate.setDirection(DcMotor.Direction.FORWARD);
+        slides.setDirection(DcMotor.Direction.FORWARD);
+        leftRoller.setDirection(CRServo.Direction.REVERSE);
+        rightRoller.setDirection(CRServo.Direction.FORWARD);
+        leftRollerArm.setDirection(CRServo.Direction.REVERSE);
+        rightRollerArm.setDirection(CRServo.Direction.FORWARD);
+        airplaneLauncher.setDirection(CRServo.Direction.REVERSE);
+        pixelHolder.setDirection(CRServo.Direction.FORWARD);
+        hook.setDirection(DcMotor.Direction.REVERSE);
+
+
+
 
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftSlideRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightSlideRotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hook.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
+
+
+
     }
 
     /**
