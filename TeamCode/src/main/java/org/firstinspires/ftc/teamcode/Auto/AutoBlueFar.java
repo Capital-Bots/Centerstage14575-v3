@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "AutoBlueFar", group = "BlueSide")
+@Autonomous(name = "Blue Auto Close to Board", group = "BlueSide")
 public class AutoBlueFar extends LinearOpMode{
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
     private static final int CAMERA_WIDTH = 1920; // width  of wanted camera resolution
@@ -57,12 +57,12 @@ public class AutoBlueFar extends LinearOpMode{
             telemetry.addData("Coordinate", "(" + (int) OpenCVBlue.cX + ", " + (int) OpenCVBlue.cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(OpenCVBlue.width)));
 
-            if(OpenCVRed.cX < CAMERA_WIDTH/3 && OpenCVRed.cX >= 0){
-                location = 1;
-            } else if(OpenCVRed.cX >= CAMERA_WIDTH/3 && OpenCVRed.cX < 2*CAMERA_WIDTH/3){
-                location = 2;
-            } else{
+            if(OpenCVBlue.cX < CAMERA_WIDTH/3 && OpenCVBlue.cX >= 0){
                 location = 0;
+            } else if(OpenCVBlue.cX >= CAMERA_WIDTH/3 && OpenCVBlue.cX < 2*CAMERA_WIDTH/3){
+                location = 1;
+            } else{
+                location = 2;
             }
 
 
@@ -82,65 +82,50 @@ public class AutoBlueFar extends LinearOpMode{
 
 
         if (opModeIsActive()) {
-            if (location == 1) {
-                for (long stop = System.nanoTime() + 1900000000; stop > System.nanoTime(); ) {
-                    leftFrontDrive.setPower(-0.4);
-                    rightFrontDrive.setPower(-0.5);
-                    leftBackDrive.setPower(-0.4);
-                    rightBackDrive.setPower(-0.5);
+            if (location ==1){
+                while (leftEncoder.getCurrentPosition() > -1 * 52500){
+                    leftFrontDrive.setPower(-0.3);
+                    rightFrontDrive.setPower(-0.3);
+                    leftBackDrive.setPower(-0.3);
+                    rightBackDrive.setPower(-0.3);
                     rightSlideRotate.setPower(.35);
                     leftSlideRotate.setPower(.35);
-                    telemetry.addData("Time: ", stop);
-                    telemetry.update();
-                    opModeIsActive();
-                }
-                for (long stop = System.nanoTime() + 900000000; stop > System.nanoTime(); ) {
-                    leftFrontDrive.setPower(0.4);
-                    rightFrontDrive.setPower(0.5);
-                    leftBackDrive.setPower(0.4);
-                    rightBackDrive.setPower(0.5);
-                    rightSlideRotate.setPower(0.35);
-                    leftSlideRotate.setPower(0.35);
-                }
-            } else {
-                for (long stop = System.nanoTime() + 1450000000; stop > System.nanoTime(); ) {
-                    leftFrontDrive.setPower(-0.4);
-                    rightFrontDrive.setPower(-0.5);
-                    leftBackDrive.setPower(-0.4);
-                    rightBackDrive.setPower(-0.5);
-                    rightSlideRotate.setPower(.35);
-                    leftSlideRotate.setPower(.35);
-                    telemetry.addData("Time: ", stop);
-                    telemetry.update();
-                    opModeIsActive();
                 }
             }
-
-            boolean o = false;
-            boolean t = false;
-            for (long stop = System.nanoTime() + 2000000000; stop > System.nanoTime(); ) {
-                if (location == 0) {
-                    rightFrontDrive.setPower(0);
-                    leftBackDrive.setPower(-0.43);
-                    rightBackDrive.setPower(0.43);
-                    leftFrontDrive.setPower(0);
-                    rightSlideRotate.setPower(.35);
-                    leftSlideRotate.setPower(.35);
-                    telemetry.update();
-                    opModeIsActive();
-                    o = true;
-                } else if (location == 1) {
-                    break;
-                } else {
-                    rightFrontDrive.setPower(-0.3);
-                    leftBackDrive.setPower(0.525);
-                    rightBackDrive.setPower(-0.525);
+            else if (location == 2) {
+                while (leftEncoder.getCurrentPosition() > -1 * 20000){
                     leftFrontDrive.setPower(-0.3);
+                    rightFrontDrive.setPower(-0.3);
+                    leftBackDrive.setPower(-0.3);
+                    rightBackDrive.setPower(-0.3);
                     rightSlideRotate.setPower(.35);
                     leftSlideRotate.setPower(.35);
-                    telemetry.update();
-                    opModeIsActive();
-                    t = true;
+                }
+                while (leftEncoder.getCurrentPosition() > -1 * 28000){
+                    leftFrontDrive.setPower(-0.1);
+                    rightFrontDrive.setPower(-0.3);
+                    leftBackDrive.setPower(-0.1);
+                    rightBackDrive.setPower(-0.3);
+                    rightSlideRotate.setPower(.35);
+                    leftSlideRotate.setPower(.35);
+                }
+            }
+            else if (location == 0){
+                while (leftEncoder.getCurrentPosition() > -1 * 35000){
+                    leftFrontDrive.setPower(-0.3);
+                    rightFrontDrive.setPower(-0.3);
+                    leftBackDrive.setPower(-0.3);
+                    rightBackDrive.setPower(-0.3);
+                    rightSlideRotate.setPower(.35);
+                    leftSlideRotate.setPower(.35);
+                }
+                while (leftEncoder.getCurrentPosition() > -1 * 75000){
+                    leftFrontDrive.setPower(-0.3);
+                    rightFrontDrive.setPower(-0.1);
+                    leftBackDrive.setPower(-0.3);
+                    rightBackDrive.setPower(-0.1);
+                    rightSlideRotate.setPower(.35);
+                    leftSlideRotate.setPower(.35);
                 }
             }
         }
