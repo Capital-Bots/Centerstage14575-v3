@@ -43,6 +43,10 @@ public class AutoRedFar extends LinearOpMode{
 
         leftEncoder = hardwareMap.get(DcMotorEx.class, "leftFront");
         rightEncoder = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftEncoder.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightEncoder.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
 

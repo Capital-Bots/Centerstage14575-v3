@@ -45,6 +45,8 @@ public class AutoBlueFar extends LinearOpMode{
 
         leftEncoder = hardwareMap.get(DcMotorEx.class, "leftFront");
         rightEncoder = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftEncoder.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
@@ -119,7 +121,7 @@ public class AutoBlueFar extends LinearOpMode{
                     rightSlideRotate.setPower(.35);
                     leftSlideRotate.setPower(.35);
                 }
-                while (leftEncoder.getCurrentPosition() > -1 * 75000){
+                while (leftEncoder.getCurrentPosition() > -1 * 70000){
                     leftFrontDrive.setPower(-0.3);
                     rightFrontDrive.setPower(-0.1);
                     leftBackDrive.setPower(-0.3);

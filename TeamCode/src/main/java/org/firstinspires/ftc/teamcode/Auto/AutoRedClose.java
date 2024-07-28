@@ -89,7 +89,6 @@ public class AutoRedClose extends LinearOpMode{
 
 
         if (opModeIsActive()) {
-            pixelHolder.setPosition(270);
             if (location ==1){
                 while (leftEncoder.getCurrentPosition() > -1 * 52500){
                     leftFrontDrive.setPower(-0.3);

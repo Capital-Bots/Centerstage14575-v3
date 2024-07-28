@@ -67,6 +67,9 @@ public class testTele extends LinearOpMode {
             double verticalComponent = -gamepad1.left_stick_y;
             double lateralComponent = gamepad1.left_stick_x;
             double turnComponent = gamepad1.right_stick_x;
+            double verticalComponent2 = -gamepad2.left_stick_y;
+            double lateralComponent2 = gamepad2.left_stick_x;
+            double turnComponent2 = gamepad2.right_stick_x;
             double slideRotatePos = gamepad2.left_trigger;
             double slideRotateNeg = gamepad2.right_trigger;
             boolean slideOut = gamepad2.left_bumper;
@@ -79,7 +82,6 @@ public class testTele extends LinearOpMode {
             boolean pixelHolding = gamepad2.b;
             boolean rotateHookPos = gamepad1.y;
             boolean rotateHookNeg = gamepad1.a;
-            boolean pixelRemove = gamepad2.back;
             boolean slowFront = gamepad2.dpad_up;
             boolean slowBack = gamepad2.dpad_down;
             boolean slowLeft = gamepad2.dpad_left;
@@ -97,6 +99,10 @@ public class testTele extends LinearOpMode {
             double fr = SPEED_MULTIPLIER * (verticalComponent - lateralComponent - turnComponent) / normalizingFactor;
             double bl = SPEED_MULTIPLIER * (verticalComponent - lateralComponent + turnComponent) / normalizingFactor;
             double br = SPEED_MULTIPLIER * (verticalComponent + lateralComponent - turnComponent) / normalizingFactor;
+            fl += 0.4 * (verticalComponent2 + lateralComponent2 + turnComponent2) / normalizingFactor;
+            fr += 0.4 * (verticalComponent2 - lateralComponent2 - turnComponent2) / normalizingFactor;
+            bl += 0.4 * (verticalComponent2 - lateralComponent2 + turnComponent2) / normalizingFactor;
+            br += 0.4 * (verticalComponent2 + lateralComponent2 - turnComponent2) / normalizingFactor;
 
             //Slow Movements - DPAD
 
@@ -188,22 +194,24 @@ public class testTele extends LinearOpMode {
             //Airplane Launching
 
             if (launchPlane1 && launchPlane2){
+                robot.airplaneLauncher.setPower(-0.5);
+            }
+            else{
                 robot.airplaneLauncher.setPower(0.5);
             }
-            else{
-                robot.airplaneLauncher.setPower(0);
-            }
 
+
+            //Pixel Holding
 
             if (pixelHolding){
-                robot.pixelHolder.setPosition(40);
-            }
-            else{
                 robot.pixelHolder.setPosition(0);
             }
+            else{
+                robot.pixelHolder.setPosition(40);
+            }
 
 
-
+            //Hanging the Robot
             if (rotateHookPos){
                 robot.hook.setPower(1);
             }
@@ -212,51 +220,6 @@ public class testTele extends LinearOpMode {
             }
             else{
                 robot.hook.setPower(0);
-            }
-
-            if (autoInToOut){
-                for (int i = 0; i < 400; i++) {
-                    robot.slides.setPower(-1 * 0.6);
-                }
-                for (int k = 0; k < 50000; k ++){
-                    robot.leftSlideRotate.setPower(0.7);
-                    robot.rightSlideRotate.setPower(0.7);
-                }
-                for (int d = 0; d < 50000; d ++){
-                    robot.leftRollerArm.setPower(0.75);
-                    robot.rightRollerArm.setPower(0.75);
-                }
-                for (int f = 0; f < 10000; f ++){
-                    robot.airplaneLauncher.setPower(0);
-                }
-                for (int s = 0; s < 40000; s ++){
-                    robot.leftSlideRotate.setPower(0.7 * -1);
-                    robot.rightSlideRotate.setPower(0.7 * -1);
-                }
-
-            }
-
-            if (autoOutToIn) {
-                for (int s = 0; s < 20000; s++) {
-                    robot.leftSlideRotate.setPower(0.7);
-                    robot.rightSlideRotate.setPower(0.7);
-                }
-                for (int o = 0; o < 50000; o++){
-                    robot.leftRollerArm.setPower(-1 * 0.75);
-                    robot.rightRollerArm.setPower(-1 * 0.75);
-                }
-                for (int p = 0; p < 25000; p++){
-                    robot.leftSlideRotate.setPower(-1 * 0.4);
-                    robot.rightSlideRotate.setPower(-1 * 0.4);
-                }
-                for (int e = 0; e < 50000; e++){
-                    robot.leftRollerArm.setPower(0.75);
-                    robot.rightRollerArm.setPower(0.75);
-                }
-                Thread.sleep(250);
-                for (int l = 0; l < 30000; l++){
-                    robot.slides.setPower(0.7);
-                }
             }
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
