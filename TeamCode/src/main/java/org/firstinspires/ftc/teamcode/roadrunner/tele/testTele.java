@@ -140,87 +140,87 @@ public class testTele extends LinearOpMode {
 
             //Slide Rotate
 
-            if (slideRotatePos>0){
-                robot.leftSlideRotate.setPower(0.5);
-                robot.rightSlideRotate.setPower(0.5);
-            }
-            else if (slideRotateNeg > 0){
-                robot.leftSlideRotate.setPower(0.5 * -1);
-                robot.rightSlideRotate.setPower(0.5 * -1);
-            }
-            else{
-                robot.leftSlideRotate.setPower(0);
-                robot.rightSlideRotate.setPower(0);
-            }
+//            if (slideRotatePos>0){
+//                robot.leftSlideRotate.setPower(0.5);
+//                robot.rightSlideRotate.setPower(0.5);
+//            }
+//            else if (slideRotateNeg > 0){
+//                robot.leftSlideRotate.setPower(0.5 * -1);
+//                robot.rightSlideRotate.setPower(0.5 * -1);
+//            }
+//            else{
+//                robot.leftSlideRotate.setPower(0);
+//                robot.rightSlideRotate.setPower(0);
+//            }
 
             //Slides Out/In
 
-            if (slideOut){
-                robot.slides.setPower(0.4);
-            }
-            else if (slideIn){
-                robot.slides.setPower(0.4 * -1);
-            }
-            else{
-                robot.slides.setPower(0);
-            }
-
-            //Rollers
-
-            if (rollers){
-                robot.leftRoller.setPower(-1);
-                robot.rightRoller.setPower(-1);
-            }
-            else{
-                robot.leftRoller.setPower(0);
-                robot.rightRoller.setPower(0);
-            }
+//            if (slideOut){
+//                robot.slides.setPower(0.4);
+//            }
+//            else if (slideIn){
+//                robot.slides.setPower(0.4 * -1);
+//            }
+//            else{
+//                robot.slides.setPower(0);
+//            }
+//
+//            //Rollers
+//
+//            if (rollers){
+//                robot.leftRoller.setPower(-1);
+//                robot.rightRoller.setPower(-1);
+//            }
+//            else{
+//                robot.leftRoller.setPower(0);
+//                robot.rightRoller.setPower(0);
+//            }
 
             //Roller Arm
 
-            if (rollerDown){
-                robot.leftRollerArm.setPower(0.5);
-                robot.rightRollerArm.setPower(0.5);
-            }
-            else if (rollerUp){
-                robot.leftRollerArm.setPower(0.5 * -1);
-                robot.rightRollerArm.setPower(0.5 * -1);
-            }
-            else{
-                robot.leftRollerArm.setPower(0);
-                robot.rightRollerArm.setPower(0);
-            }
-
-            //Airplane Launching
-
-            if (launchPlane1 && launchPlane2){
-                robot.airplaneLauncher.setPower(-0.5);
-            }
-            else{
-                robot.airplaneLauncher.setPower(0.5);
-            }
+//            if (rollerDown){
+//                robot.leftRollerArm.setPower(0.5);
+//                robot.rightRollerArm.setPower(0.5);
+//            }
+//            else if (rollerUp){
+//                robot.leftRollerArm.setPower(0.5 * -1);
+//                robot.rightRollerArm.setPower(0.5 * -1);
+//            }
+//            else{
+//                robot.leftRollerArm.setPower(0);
+//                robot.rightRollerArm.setPower(0);
+//            }
+//
+//            //Airplane Launching
+//
+//            if (launchPlane1 && launchPlane2){
+//                robot.airplaneLauncher.setPower(-0.5);
+//            }
+//            else{
+//                robot.airplaneLauncher.setPower(0.5);
+//            }
 
 
             //Pixel Holding
 
-            if (pixelHolding){
-                robot.pixelHolder.setPosition(0);
-            }
-            else{
-                robot.pixelHolder.setPosition(40);
-            }
-
-
-            //Hanging the Robot
-            if (rotateHookPos){
-                robot.hook.setPower(1);
-            }
-            else if (rotateHookNeg){
-                robot.hook.setPower(-1);
-            }
-            else{
-                robot.hook.setPower(0);
-            }
+//            if (pixelHolding){
+//                robot.pixelHolder.setPosition(0);
+//            }
+//            else{
+//                robot.pixelHolder.setPosition(40);
+//            }
+//
+//
+//            //Hanging the Robot
+//            if (rotateHookPos){
+//                robot.hook.setPower(1);
+//            }
+//            else if (rotateHookNeg){
+//                robot.hook.setPower(-1);
+//            }
+//            else{
+//                robot.hook.setPower(0);
+//            }
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
