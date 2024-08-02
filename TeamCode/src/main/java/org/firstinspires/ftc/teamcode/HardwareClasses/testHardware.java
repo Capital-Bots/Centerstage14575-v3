@@ -89,9 +89,9 @@ public class testHardware {
         hwMap = aMap;
 
         leftFrontDrive  = hwMap.get(DcMotor.class, "leftFront");
-        leftBackDrive  = hwMap.get(DcMotor.class, "leftRear");
+        leftBackDrive  = hwMap.get(DcMotor.class, "leftBack");
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFront");
-        rightBackDrive = hwMap.get(DcMotor.class, "rightRear");
+        rightBackDrive = hwMap.get(DcMotor.class, "rightBack");
 //        leftSlideRotate = hwMap.get(DcMotor.class, "leftSlideRotate");
 //        rightSlideRotate = hwMap.get(DcMotor.class, "rightSlideRotate");
 //        slides = hwMap.get(DcMotor.class, "slides");
