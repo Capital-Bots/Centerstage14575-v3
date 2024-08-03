@@ -12,11 +12,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 @TeleOp(group = "drive", name = "fieldcenttest")
 public class fieldCentricTeleTest extends LinearOpMode {
 //     double forwardHeading = Math.toRadians(180);
-    private testHardware robot = new testHardware();
-    double fl;
-    double fr;
-    double bl;
-    double br;
+    private final testHardware robot = new testHardware();
+    boolean isResetRequested;
     @Override
     public void runOpMode() throws InterruptedException {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
@@ -38,12 +35,14 @@ public class fieldCentricTeleTest extends LinearOpMode {
             );
 
 
+
             double robotHeading = drive.pose.heading.toDouble();
             double xComp = input.x;
             double yComp = -1 * input.y;
-            double inputHeading = Math.atan2(yComp, xComp);
+            double inputHeading = Math.atan2(yComp, xComp) - 0.14;
             double inputMagnitude = Math.sqrt(xComp*xComp + yComp*yComp);
             inputHeading -= robotHeading;
+            isResetRequested = gamepad1.a;
 
             double finalX = inputMagnitude * Math.cos(inputHeading);
             double finalY = inputMagnitude * Math.sin(inputHeading);
@@ -51,6 +50,10 @@ public class fieldCentricTeleTest extends LinearOpMode {
             double SPEED_MULTIPLIER = 0.9;
             double normalizingFactor = Math.max(Math.abs(finalY)
                     + Math.abs(finalX) + Math.abs(turnComponent), 1);
+
+            if (isResetRequested){
+                drive.pose = new Pose2d(new Vector2d(0,0), 0);
+            }
 
             double fl = SPEED_MULTIPLIER * (finalY + finalX + turnComponent) / normalizingFactor;
             double fr = SPEED_MULTIPLIER * (finalY - finalX - turnComponent) / normalizingFactor;
