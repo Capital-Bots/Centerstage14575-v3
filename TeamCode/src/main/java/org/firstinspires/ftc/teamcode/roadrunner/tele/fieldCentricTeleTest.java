@@ -39,7 +39,7 @@ public class fieldCentricTeleTest extends LinearOpMode {
             double robotHeading = drive.pose.heading.toDouble();
             double xComp = input.x;
             double yComp = -1 * input.y;
-            double inputHeading = Math.atan2(yComp, xComp) - 0.14;
+            double inputHeading = Math.atan2(yComp, xComp);
             double inputMagnitude = Math.sqrt(xComp*xComp + yComp*yComp);
             inputHeading -= robotHeading;
             isResetRequested = gamepad1.a;
